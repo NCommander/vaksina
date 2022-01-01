@@ -25,4 +25,20 @@ A card MUST have the following information
 
 CardObjects get passed to Validation modules to determine if holder is *actually* vaccinated
 
+Person
+===
 
+A Person is the end result created from parsing a given card
+
+... probably should have a unique identifer if storage backed
+
+A Person object is created from parsing card objects in a card manager
+
+A Person contains the following information
+ - Given Name
+ - Date of Birth
+ - Records of Procedures
+   - Could include PCR tests/rapid antigen
+   - Must include vaccination complete with status
+
+Can be processed by a validator module to determine status

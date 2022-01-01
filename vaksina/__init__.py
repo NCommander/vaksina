@@ -20,3 +20,4 @@
 #
 
 from vaksina.card_manager import CardManager
+from vaksina.fhir_parser import FHIRParser
