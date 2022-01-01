@@ -19,4 +19,24 @@
 # SOFTWARE.
 #
 
-import vaksina
+from enum import Enum
+from vaksina.card_manager import CardManager
+
+import vaksina.shc.ctm as shc_ctm
+
+class Vaksina(object):
+    '''Defines public API objects, and holds per instance state information'''
+    _shc_ctm = None
+
+    def __init__(self):
+        self._shc_ctm = shc_ctm.ShcCardTypeManager()
+
+    def import_signing_key(self, card_type, key_id, key_data):
+        '''Imports a key into the keystore'''
+
+        if card_type == "shc":
+            self._shc_ctm.import_signing_key(key_id, key_data)
+        
+    def parse_card_data(self, card_data):
+        '''Parses inbound QR code data'''
+        pass

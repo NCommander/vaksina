@@ -67,7 +67,7 @@ def decode_shc(shc_string):
         for _ in range(padding_needed):
             b64_data += '='
     jwt_data = base64.urlsafe_b64decode(b64_data)
-
+    print(jwt_data)
     # We first decode without validation, because
     # we need pubkey ..
 

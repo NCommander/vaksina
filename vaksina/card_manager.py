@@ -19,4 +19,17 @@
 # SOFTWARE.
 #
 
-import vaksina
+class CardManager(object):
+    '''Reference implementation for handling a HealthCard Object'''
+
+    def __init__(self):
+        '''Initialized a specific card format module'''
+        raise NotImplemented
+
+    def parse_card_data(self, card_data):
+        '''Parses the direct output of a QR code to objects'''
+        raise NotImplemented
+
+    def import_signing_key(self, key_id, key_data):
+        '''Imports a given signing key'''
+        raise NotImplemented

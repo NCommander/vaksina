@@ -20,3 +20,19 @@
 #
 
 import vaksina
+import vaksina.shc.key_management as km
+
+class ShcCardTypeManager(vaksina.CardManager):
+    '''Handles management aspects for all SMART Health Card data'''
+    _key_management = None
+
+    def __init__(self):
+        self._key_management = km.KeyManagement()
+
+    def parse_card_data(self, card_data):
+        '''Parses the direct output of a QR code to objects'''
+        raise NotImplemented
+
+    def import_signing_key(self, key_id, key_data):
+        '''Imports a given signing key'''
+        self._key_management.enroll_key_for_key_id(key_id, key_data)
