@@ -1,0 +1,35 @@
+FHIR Parsing Information
+
+Each item is granted a resource id starting at 0
+
+Resources are types like patients, etc.
+Other resources can refer
+
+So immunization record exists in the form of:
+ - resource:0 (Patient)
+ - resource:1 (Immunization) (points back to patient)
+ - resource:2 (Immunization) (points back to patient)
+ 
+ If there were things like PCR tests, they would be in a similar format
+ 
+ ---
+ 
+ Handle final collection of data:
+ 
+ Need to create Vaccination Record types that convert medical coding to Vaccine object(?)
+  - is this the best way to handle it?
+
+ Once Person/Immunization records assiocated with, we need a parser then checks
+ immunizations, and determined if they're good to go, plus time from initial shot
+ per COVID protocols. This should be implemented as a generic "class" that takes
+ Person record in, returns True/False to determine if someone is vaccinated, which
+ can be coded independently of the main maksina library (duck typing, yay!)
+ 
+ Validation Procedure:
+  - validate_person, and take Person
+  
+  
+  For potential kiosk/appliance use, glue Flask frontend that takes QR code representation in, and response back out.
+  
+ 
+ 
