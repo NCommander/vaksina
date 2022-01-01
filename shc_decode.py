@@ -139,7 +139,7 @@ def decode_shc(shc_string):
     # 217
     # 218
     #
-    # J&J Janseen
+    # J&J Janssen
     # 212 (1 shots)
 
     # The rest aren't approved in the US, but noting them here
