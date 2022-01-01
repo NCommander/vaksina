@@ -33,19 +33,7 @@ This is going to suck ~ NCommander'''
 import json
 from datetime import datetime
 
-class Person(object):
-    def __init__(self):
-        self.name = []
-        self.dob = None
-        self.immunizations = []
-
-class Immunization(object):
-    def __init__(self):
-        self.vaccine_administered = None
-        self.date_given = None
-        self.lot_number = None
-        self._shc_parent_object = None # used to help assemble records
-
+import vaksina as v
 
 class FHIRParser(object):
     # {'lotNumber': '0000001',
@@ -61,7 +49,7 @@ class FHIRParser(object):
         '''Confirms FHIR Immunization record to object'''
 
         # It's possible that multiple vaccines can be given in
-        # single day. This isn't done for COVID per say, but 
+        # single day. This isn't done for COVID per say, but
         # because FIRS is a general purpose specification, we
         # should handle this, especially if there are future
         # multishot COVID vaccinations that *are* given at later
@@ -75,9 +63,10 @@ class FHIRParser(object):
                 print("ERROR: unknown vaccine coding system")
                 continue
 
-            immunization = Immunization()
+            immunization = v.Immunization()
             immunization.lot_number = resource['lotNumber']
-            immunization.date_given = datetime.fromisoformat(resource['occurrenceDateTime'])
+            immunization.date_given = datetime.fromisoformat(
+                resource['occurrenceDateTime'])
             immunization.vaccine_administered = code['code']
             immunization._shc_parent_object = resource['patient']['reference']
 
@@ -103,7 +92,7 @@ class FHIRParser(object):
     def parse_person_record(resource):
         '''Converts FHIR data into People Records'''
 
-        person = Person()
+        person = v.Person()
 
         # A person can have multiple names if they got married
         # transitioned, etc. We need to list all names to handle
@@ -131,7 +120,9 @@ class FHIRParser(object):
         # is URI to build the end result. uri fields are
         # freeform, so yay ...
 
-        resource_uris = dict()
+        person_uris = dict()
+
+        immunizations = []
 
         for entry in bundle['entry']:
             # Determine what type of resource we're looking at
@@ -139,7 +130,9 @@ class FHIRParser(object):
 
             if resource['resourceType'] == 'Patient':
                 person = FHIRParser.parse_person_record(resource)
-                print(vars(person))
+                person_uris[entry['fullUrl']] = person
+
+                # print(vars(person))
             elif resource['resourceType'] == 'Immunization':
                 # ok, special case here, we only handle an immunizaiton
                 # if it was actually completed, otherwise, disregard
@@ -147,11 +140,20 @@ class FHIRParser(object):
                     # FIXME: check this
                     print("FIXME: handle non-complete status")
                     continue
- 
-                immunization = FHIRParser.parse_immunization_record(resource)
-                print(vars(immunization[0]))
+
+                immunizations = immunizations + \
+                    FHIRParser.parse_immunization_record(resource)
             else:
                 # its a record type we don't know/understand
                 print("FIXME: LOGME, UNKNOWN RECORD")
 
-            resource_uris[entry['fullUrl']] = None # FIXME: become an object
+        # Assiocate immunity records with patient records
+        for immunization in immunizations:
+            if immunization._shc_parent_object not in person_uris:
+                raise ValueError(
+                    "ERROR: DANGLING REFERENCE TO SHC PARENT OBJECT")
+            person_uris[immunization._shc_parent_object].immunizations.append(
+                immunization)
+        
+
+        return list(person_uris.values())

@@ -19,7 +19,8 @@
 # SOFTWARE.
 #
 
-from vaksina.card_manager import CardManager
-from vaksina.fhir_parser import FHIRParser
-from vaksina.person import Person
-from vaksina.immunization import Immunization
+class Person(object):
+    def __init__(self):
+        self.name = []
+        self.dob = None
+        self.immunizations = []

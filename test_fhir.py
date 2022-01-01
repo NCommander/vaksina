@@ -9,7 +9,8 @@ def main():
         fhir_json = json.loads(f.read())
     
 
-    parser = vaksina.FHIRParser.parse_bundle_to_persons(fhir_json['vc']['credentialSubject']['fhirBundle'])
+    persons = vaksina.FHIRParser.parse_bundle_to_persons(fhir_json['vc']['credentialSubject']['fhirBundle'])
+    print(persons)
 
 if __name__ == '__main__':
     main()

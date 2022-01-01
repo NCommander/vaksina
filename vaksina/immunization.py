@@ -19,7 +19,9 @@
 # SOFTWARE.
 #
 
-from vaksina.card_manager import CardManager
-from vaksina.fhir_parser import FHIRParser
-from vaksina.person import Person
-from vaksina.immunization import Immunization
+class Immunization(object):
+    def __init__(self):
+        self.vaccine_administered = None
+        self.date_given = None
+        self.lot_number = None
+        self._shc_parent_object = None  # used to help assemble records
