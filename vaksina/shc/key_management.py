@@ -35,7 +35,7 @@ class KeyManagement(object):
 
     def get_keys_for_key_id(self, key_id):
         '''Returns all known keys for a given kid'''
-        return self._key_storage(key_id, None)
+        return self._key_storage.get(key_id, None)
 
     def enroll_key_for_key_id(self, key_id, keydata):
         '''Enrolls a key into the Key Management system'''
@@ -52,7 +52,7 @@ class KeyManagement(object):
         '''Creates jose pubkey objects from JWT JSON'''
 
         # SHC says this is what must be used
-        valid_keys = []
+        valid_keys = dict()
 
         # Specification allows multiple keys, so lets process them one by one
         for key in jwt_pubkey['keys']:
@@ -80,8 +80,8 @@ class KeyManagement(object):
             if "d" in key:
                 print("SUPER ERROR: SOMEONE LEFT THE PRIVATE KEY IN PLACE!")
 
-            valid_keys.append(jwk.construct(key, algorithm=ALGORITHMS.ES256))
+            valid_keys[key['kid']] = jwk.construct(key, algorithm=ALGORITHMS.ES256)
 
-            return valid_keys
+        return valid_keys
 
     _key_storage = dict()

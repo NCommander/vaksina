@@ -23,6 +23,9 @@ def main():
             jwt_json
         )
 
+    with open("example-01-f-qr-code-numeric-value-0.txt", "r") as f:
+        v.parse_card_data(f.read())
+
     print(v._shc_ctm._key_management._key_storage)
 
     # KeyManager = km.KeyManagement()

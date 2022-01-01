@@ -39,4 +39,9 @@ class Vaksina(object):
         
     def parse_card_data(self, card_data):
         '''Parses inbound QR code data'''
-        pass
+
+        if card_data[0:5] == 'shc:/':
+            return self._shc_ctm.parse_card_data(card_data)
+        
+        #  if we get here, no known way to handle it
+        raise NotImplemented
