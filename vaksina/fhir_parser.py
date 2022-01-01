@@ -35,7 +35,7 @@ from datetime import datetime
 
 class Person(object):
     def __init__(self):
-        self.name = None
+        self.name = []
         self.dob = None
         self.immunizations = []
 
@@ -80,13 +80,46 @@ class FHIRParser(object):
             immunization.date_given = datetime.fromisoformat(resource['occurrenceDateTime'])
             immunization.vaccine_administered = code['code']
             immunization._shc_parent_object = resource['patient']['reference']
+
             # so register the specific vaccine, right now, just handle the "code"
             immunizations.append(immunization)
 
         return immunizations
 
-    def parse_person_record(source):
-        pass
+    # {
+    #   "resourceType": "Patient",
+    #   "name": [
+    #     {
+    #       "family": "Anyperson",
+    #       "given": [
+    #         "John",
+    #         "B."
+    #       ]
+    #     }
+    #   ],
+    #   "birthDate": "1951-01-20"
+    # }
+
+    def parse_person_record(resource):
+        '''Converts FHIR data into People Records'''
+
+        person = Person()
+
+        # A person can have multiple names if they got married
+        # transitioned, etc. We need to list all names to handle
+        # validation correctly since their COVID card may not 100%
+        # government ID
+
+        for name in resource['name']:
+            person_name = ""
+            for given_name in name['given']:
+                person_name = person_name + given_name + " "
+            person_name = person_name + name['family']
+            person.name.append(person_name)
+
+        person.dob = datetime.fromisoformat(resource['birthDate'])
+
+        return person
 
     def parse_bundle_to_persons(bundle):
         # First, we need to sort, and create top level records
@@ -105,7 +138,8 @@ class FHIRParser(object):
             resource = entry['resource']
 
             if resource['resourceType'] == 'Patient':
-                FHIRParser.parse_person_record(resource)
+                person = FHIRParser.parse_person_record(resource)
+                print(vars(person))
             elif resource['resourceType'] == 'Immunization':
                 # ok, special case here, we only handle an immunizaiton
                 # if it was actually completed, otherwise, disregard
