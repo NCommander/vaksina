@@ -34,6 +34,7 @@ import json
 from datetime import datetime
 
 import vaksina as v
+import vaksina.vaccines as vc
 
 class FHIRParser(object):
     # {'lotNumber': '0000001',
@@ -67,7 +68,13 @@ class FHIRParser(object):
             immunization.lot_number = resource['lotNumber']
             immunization.date_given = datetime.fromisoformat(
                 resource['occurrenceDateTime'])
-            immunization.vaccine_administered = code['code']
+
+            # So dependenting on the code we get determines the type
+            # of vaccine that was issued
+            fhir_vax_code = vc.FHIRVaccineCodeDictionary.get(int(code['code']), None)
+            if fhir_vax_code is None:
+                raise ValueError("Unknown FHIR code!")
+
             immunization._shc_parent_object = resource['patient']['reference']
 
             # so register the specific vaccine, right now, just handle the "code"

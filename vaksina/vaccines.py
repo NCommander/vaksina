@@ -19,29 +19,37 @@
 # SOFTWARE.
 #
 
-class Person(object):
-    def __init__(self):
-        self.name = []
-        """name is a list of names from the vaccination card
+'''Contains the top level objects for vaccine codes'''
 
-        At least in theory, it is possible for a SMART Heart Card, or
-        others to list multiple names, as that is part of the FHIR standard
+import enum
 
-        As this was explained to me, this is primary intended for cases of people
-        with multiple legal aliases. I am not certain if SHC other card would be
-        *issued* like that, but its also a possibility, so in the hope to avoid
-        a future refactor, this is handled as a list (unfortunately)
-        """
+class VaccineTypes(enum.Enum):
+    '''Enumerated values for vaccine codes'''
+    PFIZER_COMIRNATY = enum.auto()
+    JANSSEN = enum.auto()
+    MODERNA = enum.auto()
+    ASTRAZENECA = enum.auto()
+    NOVAVAX = enum.auto()
+    SINOPHARM = enum.auto()
+    CORONAVAX = enum.auto()
+    UNKNOWN = enum.auto()
 
-        self.dob = None
-        """Handles the date of birth for a given person
+FHIRVaccineCodeDictionary = {
+    # Phfizer vaccine codes 
+    208 : VaccineTypes.PFIZER_COMIRNATY,
+    217 : VaccineTypes.PFIZER_COMIRNATY,
+    218 : VaccineTypes.PFIZER_COMIRNATY,
 
-        Object held in Python DateTime format"""
+    207 : VaccineTypes.MODERNA,
 
-        self.immunizations = []
-        """Immunizations are vaksina.Immunization objects, formed as a list.
+    212 : VaccineTypes.JANSSEN,
 
-        Only completed vaccitions (that is status = "completed" in SHC, or similar
-        in other cards) is included, since this is not intended as a general purpose
-        health record tool, merely a validator for COVID-19 QR codes
-        """
+    210 : VaccineTypes.ASTRAZENECA,
+
+    # non us codes, known to be incomplete - NC 01/02/22
+    510 : VaccineTypes.SINOPHARM,
+    511 : VaccineTypes.NOVAVAX,
+
+    # Unknwon code, should never use
+    213 : VaccineTypes.UNKNOWN
+}

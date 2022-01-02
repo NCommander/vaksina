@@ -1,5 +1,4 @@
 TODO List:
- - Handle scheme validation bugs
  - Properly serialize vaccine codes
    - ... possibly add class objects? (maybe too complex)
  - UNIT TESTS!!!!!!!!
@@ -13,3 +12,5 @@ TODO List:
        - Card parses, but bad signature (orange check)
        - Person doesn't have completed vaccines (red check)
        - Not supported (grey check)
+
+ - Handle all non-US vaccines, go through CDC list and more

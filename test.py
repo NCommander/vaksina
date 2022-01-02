@@ -28,7 +28,7 @@ def main():
         vax_data = v.parse_card_data(f.read())
 
 
-    print(vax_data)
+    print(vars(vax_data[0]))
     # KeyManager = km.KeyManagement()
 
     # with open("jwks.json", "r") as f:

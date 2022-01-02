@@ -24,8 +24,6 @@ from jose import jwk, jws
 from jose.constants import ALGORITHMS
 from jose.exceptions import JWSError
 
-import vaksina.shc.utils as utils
-
 class KeyManagement(object):
     '''Handles keeping track of all known SHC key signatures'''
 

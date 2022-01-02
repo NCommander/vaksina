@@ -23,3 +23,4 @@ from vaksina.card_manager import CardManager
 from vaksina.fhir_parser import FHIRParser
 from vaksina.person import Person
 from vaksina.immunization import Immunization
+from vaksina.vaccines import VaccineTypes
