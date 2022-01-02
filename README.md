@@ -31,3 +31,7 @@ For purposes of testing and validation, a simple REST frontend + javascript page
 ## Full code coverage and unit tests
 
 Because we don't want to have untested code paths.
+
+### Useful links
+ * https://github.com/the-commons-project/vci-directory - list of PKI providers
+ * https://github.com/Path-Check/who-verifier-app - Android no data kept FOSS app
