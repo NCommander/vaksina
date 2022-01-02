@@ -30,7 +30,7 @@ from jose.constants import ALGORITHMS
 
 import vaksina
 import vaksina.shc.key_management as km
-
+import vaksina.fhir_parser as f
 
 class ShcCardTypeManager(vaksina.CardManager):
     '''Handles management aspects for all SMART Health Card data'''
@@ -81,14 +81,28 @@ class ShcCardTypeManager(vaksina.CardManager):
         vax_data = json.loads(
             str(zlib.decompress(verified_data, wbits=-15), 'utf-8'))
 
-        print(vax_data)
+        # Assuming we got this far, ensure that this card complies with
+        # the specifications we *assume* exist*
+        is_health_card = False
+        is_covid19_card = False
+        is_immunization_card = False
 
-        #signing_key = unvalidated_vac_data['kid']
+        for card_type in vax_data['vc']['type']:
+            if card_type == "https://smarthealth.cards#health-card":
+                is_health_card = True
+            elif card_type == "https://smarthealth.cards#immunization":
+                is_immunization_card = True
+            elif card_type == "https://smarthealth.cards#covid19":
+                is_covid19_card = True
 
-        # print(signing_key)
-        # if signing_key not in valid_pubkeys:
-        #    print("NOT A KNOWN KEY!")
-        #    return
+        if is_health_card == False or \
+           is_covid19_card == False or \
+           is_immunization_card == False:
+            raise ValueError("Not a supported type of card")
+
+        # Now we need to decode the FHIR data
+        return f.FHIRParser.parse_bundle_to_persons(
+            vax_data['vc']['credentialSubject']['fhirBundle'])
 
     def import_signing_key(self, key_id, key_data):
         '''Imports a given signing key'''

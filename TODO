@@ -1,0 +1,15 @@
+TODO List:
+ - Handle scheme validation bugs
+ - Properly serialize vaccine codes
+   - ... possibly add class objects? (maybe too complex)
+ - UNIT TESTS!!!!!!!!
+ - Write first implementation of "checker"
+ - Import VCI list of SHC pubkeys
+   - Revocation, would be nice to work
+ - Draft Flask API in/out
+   - REST based API
+     - Possible returns
+       - Card is valid
+       - Card parses, but bad signature (orange check)
+       - Person doesn't have completed vaccines (red check)
+       - Not supported (grey check)

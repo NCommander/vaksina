@@ -23,11 +23,12 @@ def main():
             jwt_json
         )
 
+    vax_data = None
     with open("example-01-f-qr-code-numeric-value-0.txt", "r") as f:
-        v.parse_card_data(f.read())
+        vax_data = v.parse_card_data(f.read())
 
-    print(v._shc_ctm._key_management._key_storage)
 
+    print(vax_data)
     # KeyManager = km.KeyManagement()
 
     # with open("jwks.json", "r") as f:
