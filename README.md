@@ -10,7 +10,7 @@ Vaksina is the intended proof of concept to handle this, and is intended to work
 
 ## Zero-Knowledge/Zero-Record Model
 
-It is intended that no data submitting to vaksina is stored beyond the time it takes to parse the record. The only external data loaded and kept are PKI information from a set of "known good" trusted sources, that is covered by the next bullet point.
+It is intended that no data submitted to Vaksina is stored beyond the time it takes to parse the record. The only external data loaded and kept are PKI information from a set of "known good" trusted sources, that is covered by the next bullet point.
 
 ## Creation of Public Trust Store
 
