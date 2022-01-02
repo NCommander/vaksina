@@ -65,7 +65,7 @@ class ShcCardTypeManager(vaksina.CardManager):
         unvalidated_vac_header = jws.get_unverified_header(b64_data)
         unvalidated_vac_data = jws.get_unverified_claims(b64_data)
         raw_unsigned_vax_data = str(zlib.decompress(
-            unvalidated_vac_data, wbits=-15), 'utf-8')
+            bytes(unvalidated_vac_data), wbits=-15), 'utf-8')
 
         unsigned_vax_data = json.loads(raw_unsigned_vax_data)
 
