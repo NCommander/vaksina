@@ -19,8 +19,33 @@
 # SOFTWARE.
 #
 
-from vaksina.card_manager import CardManager
-from vaksina.fhir_parser import FHIRParser
-from vaksina.person import Person
-from vaksina.immunization import Immunization
-from vaksina.validators import Validators
+'''Handles various validator functions'''
+
+class Validators(object):
+    def __init__(self):
+        pass
+
+    def validator_osha_1910_501_rules(person):
+        '''
+        Determines valid vaccination status based off the OSHA
+        1910.501 Standard.
+
+        https://osha.gov/laws-regs/regulations/standardnumber/1910/1910.501
+
+        To be fully vaccinated, an individual must meet the following
+        
+        If one shot vaccine is used (aka J&J) then:
+          - 2 weeks must pass from administration date to current date
+
+        Otherwise, in a two shot vaccine, the following rules apply
+          - each vaccine must be admined 17 days apart with 4 day grace period
+          - 2 weeks from the date of administration
+
+        This standard does not account for any boosters in use.
+        '''
+
+        # Get immunizations for person
+        immunizations = person.immunizations
+
+        # Check if user has gotten a one shot vaccine
+        

@@ -34,10 +34,11 @@ import vaksina.fhir_parser as f
 
 class ShcCardTypeManager(vaksina.CardManager):
     '''Handles management aspects for all SMART Health Card data'''
-    _key_management = None
-
-    def __init__(self):
+    
+    def __init__(self, vaccine_mgr):
         self._key_management = km.KeyManagement()
+        self._vaccine_mgr = vaccine_mgr
+        self._fhir_parser = f.FHIRParser(vaccine_mgr)
 
     def parse_card_data(self, card_data, allow_bad_sig=False):
         '''Parses the direct output of a QR code to objects'''
@@ -101,7 +102,7 @@ class ShcCardTypeManager(vaksina.CardManager):
             raise ValueError("Not a supported type of card")
 
         # Now we need to decode the FHIR data
-        return f.FHIRParser.parse_bundle_to_persons(
+        return self._fhir_parser.parse_bundle_to_persons(
             vax_data['vc']['credentialSubject']['fhirBundle'])
 
     def import_signing_key(self, key_id, key_data):

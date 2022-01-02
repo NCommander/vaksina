@@ -1,6 +1,4 @@
 TODO List:
- - Properly serialize vaccine codes
-   - ... possibly add class objects? (maybe too complex)
  - UNIT TESTS!!!!!!!!
  - Write first implementation of "checker"
  - Import VCI list of SHC pubkeys

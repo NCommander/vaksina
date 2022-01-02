@@ -37,6 +37,8 @@ import vaksina as v
 import vaksina.vaccines as vc
 
 class FHIRParser(object):
+    def __init__(self, vaccine_mgr):
+        self.vaccine_mgr = vaccine_mgr
     # {'lotNumber': '0000001',
     #  'occurrenceDateTime': '2021-01-01',
     #  'patient': {'reference': 'resource:0'},
@@ -46,7 +48,7 @@ class FHIRParser(object):
     #  'vaccineCode': {'coding': [{'code': '207',
     #                              'system': 'http://hl7.org/fhir/sid/cvx'}]}}
 
-    def parse_immunization_record(resource):
+    def parse_immunization_record(self, resource):
         '''Confirms FHIR Immunization record to object'''
 
         # It's possible that multiple vaccines can be given in
@@ -71,9 +73,7 @@ class FHIRParser(object):
 
             # So dependenting on the code we get determines the type
             # of vaccine that was issued
-            fhir_vax_code = vc.FHIRVaccineCodeDictionary.get(int(code['code']), None)
-            if fhir_vax_code is None:
-                raise ValueError("Unknown FHIR code!")
+            immunization.vaccine_administered = self.vaccine_mgr.get_vaccine_by_fhir_code(int(code['code']))
 
             immunization._shc_parent_object = resource['patient']['reference']
 
@@ -96,7 +96,7 @@ class FHIRParser(object):
     #   "birthDate": "1951-01-20"
     # }
 
-    def parse_person_record(resource):
+    def parse_person_record(self, resource):
         '''Converts FHIR data into People Records'''
 
         person = v.Person()
@@ -117,7 +117,7 @@ class FHIRParser(object):
 
         return person
 
-    def parse_bundle_to_persons(bundle):
+    def parse_bundle_to_persons(self, bundle):
         # First, we need to sort, and create top level records
 
         if bundle['resourceType'] != "Bundle":
@@ -136,7 +136,7 @@ class FHIRParser(object):
             resource = entry['resource']
 
             if resource['resourceType'] == 'Patient':
-                person = FHIRParser.parse_person_record(resource)
+                person = self.parse_person_record(resource)
                 person_uris[entry['fullUrl']] = person
 
                 # print(vars(person))
@@ -149,7 +149,7 @@ class FHIRParser(object):
                     continue
 
                 immunizations = immunizations + \
-                    FHIRParser.parse_immunization_record(resource)
+                    self.parse_immunization_record(resource)
             else:
                 # its a record type we don't know/understand
                 print("FIXME: LOGME, UNKNOWN RECORD")

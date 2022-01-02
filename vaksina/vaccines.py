@@ -22,34 +22,54 @@
 '''Contains the top level objects for vaccine codes'''
 
 import enum
+import json
 
-class VaccineTypes(enum.Enum):
-    '''Enumerated values for vaccine codes'''
-    PFIZER_COMIRNATY = enum.auto()
-    JANSSEN = enum.auto()
-    MODERNA = enum.auto()
-    ASTRAZENECA = enum.auto()
-    NOVAVAX = enum.auto()
-    SINOPHARM = enum.auto()
-    CORONAVAX = enum.auto()
-    UNKNOWN = enum.auto()
+class VaccineManager(object):
+    '''Manages all data for vaccines as needed'''
+    
+    def __init__(self):
+        self._known_vaccine_list = []
 
-FHIRVaccineCodeDictionary = {
-    # Phfizer vaccine codes 
-    208 : VaccineTypes.PFIZER_COMIRNATY,
-    217 : VaccineTypes.PFIZER_COMIRNATY,
-    218 : VaccineTypes.PFIZER_COMIRNATY,
+    def load_vaccine_info(self, raw_file):
+        '''Loads data file with all known vaccine information'''
+        vax_info = json.loads(raw_file)
+        for vax in vax_info['known_vaccines']:
+            v = Vaccine.load_from_json(vax)
+            self._known_vaccine_list.append(v)
 
-    207 : VaccineTypes.MODERNA,
+    def get_vaccine_by_fhir_code(self, wanted_fhir_code):
+        '''Walks the vaccine list, and returns vaccine obj based off FHIR'''
 
-    212 : VaccineTypes.JANSSEN,
+        for vaccine in self._known_vaccine_list:
+            for fhir_code in vaccine.fhir_codes:
+                if fhir_code == wanted_fhir_code:
+                    return vaccine
 
-    210 : VaccineTypes.ASTRAZENECA,
+        raise ValueError("Unknown vaccine")
 
-    # non us codes, known to be incomplete - NC 01/02/22
-    510 : VaccineTypes.SINOPHARM,
-    511 : VaccineTypes.NOVAVAX,
+    def get_vaccine_by_identifer(self, identifer):
+        '''Gets a vaccine by the identifer in the JSON file'''
+        for vaccine in self._known_vaccine_list:
+            if self.vaccine_identifier == identifer:
+                return vaccine
+        
+        raise ValueError("Unknown vaccine")
 
-    # Unknwon code, should never use
-    213 : VaccineTypes.UNKNOWN
-}
+class Vaccine(object):
+    '''Base class for vaccines'''
+    def __init__(self):
+        self.vaccine_identifier = None
+        self.number_of_doses = None
+        self.recommended_minimum_days_between_doses = None
+        self.fhir_codes = []
+
+    def load_from_json(v):
+        '''Deserailizes vaccine information from JSON file'''
+        vax = Vaccine()
+        vax.vaccine_identifier = v['vaccine_identifier']
+        vax.number_of_doses = v['number_of_doses']
+        vax.recommended_minimum_days_between_doses = \
+            v['recommended_minimum_days_between_doses']
+        vax.fhir_codes = v['fhir_codes']
+        return vax
+

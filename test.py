@@ -5,7 +5,7 @@ import vaksina
 import vaksina.shc as shc
 import vaksina.shc.key_management as km
 from vaksina.vaksina import Vaksina
-
+from vaksina.validators import Validators
 
 def main():
     v = Vaksina()
@@ -23,12 +23,21 @@ def main():
             jwt_json
         )
 
+    with open("data/vaccine_info.json") as f:
+        v.load_vaccine_info(f.read())
+
     vax_data = None
     with open("example-01-f-qr-code-numeric-value-0.txt", "r") as f:
         vax_data = v.parse_card_data(f.read())
 
-
     print(vars(vax_data[0]))
+    for i in vax_data[0].immunizations:
+        print(vars(i))
+        print(vars(i.vaccine_administered))
+
+    # Validators.validator_osha_1910_501_rules(vax_data[0])
+
+
     # KeyManager = km.KeyManagement()
 
     # with open("jwks.json", "r") as f:
