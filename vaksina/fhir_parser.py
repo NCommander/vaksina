@@ -45,6 +45,7 @@ class FHIRParser(object):
     #  'vaccineCode': {'coding': [{'code': '207',
     #                              'system': 'http://hl7.org/fhir/sid/cvx'}]}}
 
+    @staticmethod
     def parse_immunization_record(resource):
         '''Confirms FHIR Immunization record to object'''
 
@@ -89,6 +90,7 @@ class FHIRParser(object):
     #   "birthDate": "1951-01-20"
     # }
 
+    @staticmethod
     def parse_person_record(resource):
         '''Converts FHIR data into People Records'''
 
@@ -110,6 +112,7 @@ class FHIRParser(object):
 
         return person
 
+    @staticmethod
     def parse_bundle_to_persons(bundle):
         # First, we need to sort, and create top level records
 

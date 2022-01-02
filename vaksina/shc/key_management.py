@@ -48,8 +48,11 @@ class KeyManagement(object):
         else:
             raise ValueError("Cowardly refusing to enroll duplicate iss keystore")
 
+    @staticmethod
     def _load_pubkey(jwt_pubkey):
-        '''Creates jose pubkey objects from JWT JSON'''
+        """
+        Creates jose pubkey objects from JWT JSON
+        """
 
         # SHC says this is what must be used
         valid_keys = dict()
@@ -59,7 +62,7 @@ class KeyManagement(object):
             if key['kty'] != 'EC':
                 print("ERROR: Can't load non EC key")
                 continue
-            
+
             if key['use'] != 'sig':
                 print("ERROR: key type not signature")
                 continue
