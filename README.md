@@ -14,7 +14,7 @@ It is intended that no data submitting to vaksina is stored beyond the time it t
 
 ## Creation of Public Trust Store
 
-The creation of a "known good" set of sign keys will be provided ala Mozilla store
+The creation of a "known good" set of sign keys will be provided ala Mozilla store.
 
 ## Creation of validation of SMART Health Card standard
 
@@ -30,4 +30,4 @@ For purposes of testing and validation, a simple REST frontend + javascript page
 
 ## Full code coverage and unit tests
 
-Because we don't want to have untested code paths
+Because we don't want to have untested code paths.
