@@ -20,11 +20,11 @@
 #
 
 '''So this module exists because the reference implementations parse
-that can the SMART FHIRs data is in development, poorly documented
+that can handle the SMART FHIRs data is in development, poorly documented
 and to quote the *official* SMARTS specification, you can hack it 
-together from a bunch of freestandin libraries. SInce there's no 
+together from a bunch of freestandin libraries. Since there's no 
 validated turnkey solution, there's going to be a lot of health
-providers that will DIY it, and do it wrong
+providers that will DIY it, and do it wrong.
 
 So, unfortunately, we're going to have to parse this ourselves.
 
@@ -94,10 +94,10 @@ class FHIRParser(object):
 
         person = v.Person()
 
-        # A person can have multiple names if they got married
+        # A person can have multiple names if they got married,
         # transitioned, etc. We need to list all names to handle
         # validation correctly since their COVID card may not 100%
-        # government ID
+        # match the government ID
 
         for name in resource['name']:
             person_name = ""
@@ -114,7 +114,7 @@ class FHIRParser(object):
         # First, we need to sort, and create top level records
 
         if bundle['resourceType'] != "Bundle":
-            raise ValueError("must be FHIRS Bundle")
+            raise ValueError("must be a FHIR Bundle")
 
         # So we need to map each type of resource to
         # is URI to build the end result. uri fields are
