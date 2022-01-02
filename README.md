@@ -6,7 +6,7 @@ This was primarilly written because, at the time I started this project, there i
 
 Vaksina is the intended proof of concept to handle this, and is intended to work with a REST based API deployed on venue, but may be adopted for use in mobile applications *and similar* as a future goal, but the intent is implementation with a kiosk like system that is used in combination with a national ID card *since* none of COVID-19 QR codes are usable as an ID in and of themselves.
 
-# Version 1.0 Goals
+# Version 0.1 Goals
 
 ## Creation of Public Trust Store
 
