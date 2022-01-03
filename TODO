@@ -1,7 +1,15 @@
 TODO List:
  - RECONSIDER: Split names loading into firstname/last name for
                parts of the world that use given names first
+ - CONSIDER: Specific Exception types for given fail modes
+ - CONSIDER: how do we represent entered-in-error or not-given
+             FHIR codes. Currently disregarded on bundle parsing
+             but could be made an option flag for various reasons
+             ...               
+ - Implement debug logger that explains in depth why card may
+   have been rejected
  - UNIT TESTS!!!!!!!!
+
  - Need more robust downloader tool of VCI key information
    - *must* log failures for MVP, maybe try multiple at once?
    - Validate data we get from endpoint is valid JWT tokens 

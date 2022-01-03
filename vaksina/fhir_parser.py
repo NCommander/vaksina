@@ -58,13 +58,14 @@ class FHIRParser(object):
         # multishot COVID vaccinations that *are* given at later
         # point, because data structures are important
 
+        if resource['resourceType'] != 'Immunization':
+            raise ValueError("Non-immunization record passed")
+
         immunizations = []
         vaccine_code = resource['vaccineCode']
         for code in vaccine_code['coding']:
             if code['system'] != 'http://hl7.org/fhir/sid/cvx':
-                # Unknown coding
-                print("ERROR: unknown vaccine coding system")
-                continue
+                raise ValueError("Unknown vaccine coding system")
 
             immunization = v.Immunization()
             immunization.lot_number = resource['lotNumber']
@@ -97,7 +98,18 @@ class FHIRParser(object):
     # }
 
     def parse_person_record(self, resource):
-        '''Converts FHIR data into People Records'''
+        '''Converts FHIR data into People Records
+        
+        NOTE: Currently only data related to completed vaccinations
+        is considered by this function. This may change on a later
+        date if needed.
+        
+        To be specific, any immunization record that is not 'completed'
+        is silently discarded.
+        '''
+
+        if resource['resourceType'] != 'Patient':
+            raise ValueError("Non-patient record passed")
 
         person = v.Person()
 
@@ -144,14 +156,26 @@ class FHIRParser(object):
                 # ok, special case here, we only handle an immunizaiton
                 # if it was actually completed, otherwise, disregard
                 if resource['status'] != 'completed':
-                    # FIXME: check this
-                    print("FIXME: handle non-complete status")
+                    # FHIR specification notes that status can be one
+                    # of the following values
+                    #
+                    # - completed
+                    # - entered-in-error
+                    # - not-done
+                    #
+                    # As such, we can completely disregard any not completed
+                    # records as they will never count towards determine 
+                    # vaccination status
+                    # FIXME: debug logger
                     continue
 
                 immunizations.append(self.parse_immunization_record(resource))
-            else:
-                # its a record type we don't know/understand
-                print("FIXME: LOGME, UNKNOWN RECORD")
+
+            # Coverage isn't properly handling an else class here
+            #
+            # IF we get here, then we're got an unknown record and ignoring
+            # if
+            # FIXME: Implement debug logger
 
         # Assiocate immunity records with patient records
         for immunization in immunizations:
