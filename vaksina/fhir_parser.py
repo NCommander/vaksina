@@ -53,7 +53,7 @@ class FHIRParser(object):
 
         # It's possible that multiple vaccines can be given in
         # single day. This isn't done for COVID per say, but
-        # because FIRS is a general purpose specification, we
+        # because FHIR is a general purpose specification, we
         # should handle this, especially if there are future
         # multishot COVID vaccinations that *are* given at later
         # point, because data structures are important
