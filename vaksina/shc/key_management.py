@@ -39,7 +39,6 @@ class KeyManagement(object):
         '''Enrolls a key into the Key Management system'''
         loaded_key = KeyManagement._load_pubkey(keydata)
 
-        print(key_id)
         keys = self._key_storage.get(key_id, None)
 
         if keys is None:

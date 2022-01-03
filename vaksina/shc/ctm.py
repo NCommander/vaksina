@@ -74,9 +74,12 @@ class ShcCardTypeManager(vaksina.CardManager):
         signing_keys = self._key_management.get_keys_for_key_id(
             unsigned_vax_data['iss'])
 
-        declared_key = signing_keys.get(unvalidated_vac_header['kid'], None)
+        if signing_keys is None:
+             raise Exception("Unknown Issuer" + unsigned_vax_data['iss'])
+
+        declared_key = signing_keys.get(unvalidated_vac_header['kid'])
         if declared_key is None:
-            raise Exception("No valid signing key found")
+            raise Exception("No valid signing key found for" + unvalidated_vac_header['kid'])
 
         verified_data = jws.verify(b64_data, declared_key, ALGORITHMS.ES256)
         vax_data = json.loads(

@@ -10,11 +10,11 @@ from vaksina.validators import Validators
 def main():
     v = Vaksina()
 
-    #with open("jwks.json", "r") as f:
-    #    jwt_json = json.loads(f.read())
-    #    v.import_signing_key("shc",
-    #                         "https://spec.smarthealth.cards/examples/issuer",
-    #                         jwt_json)
+    with open("jwks.json", "r") as f:
+        jwt_json = json.loads(f.read())
+        v.import_signing_key("shc",
+                             "https://spec.smarthealth.cards/examples/issuer",
+                             jwt_json)
 
     with open("data/shc_keys.json", "r") as f:
         v.import_key_database('shc', f.read())
@@ -33,9 +33,9 @@ def main():
     with open("example-01-f-qr-code-numeric-value-0.txt", "r") as f:
         vax_data = v.parse_card_data(f.read())
 
-    for i in vax_data[0].immunizations:
-        print(vars(i))
-        print(vars(i.vaccine_administered))
+    #for i in vax_data[0].immunizations:
+    #    print(vars(i))
+    #    print(vars(i.vaccine_administered))
 
     print(Validators.validator_osha_1910_501_rules(v, vax_data[0]))
 
