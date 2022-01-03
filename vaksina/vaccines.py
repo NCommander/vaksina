@@ -50,7 +50,7 @@ class VaccineInfoManager(object):
     def get_vaccine_by_identifer(self, identifer):
         '''Gets a vaccine by the identifer in the JSON file'''
         for vaccine in self._known_vaccine_list:
-            if self.vaccine_identifier == identifer:
+            if vaccine.vaccine_identifier == identifer:
                 return vaccine
         
         raise ValueError("Unknown vaccine")
