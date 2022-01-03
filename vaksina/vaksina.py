@@ -47,6 +47,12 @@ class Vaksina(object):
         if card_type == "shc":
             self._shc_ctm.import_signing_key(key_id, key_data)
 
+    def import_key_database(self, card_type, key_data):
+        '''Imports a key into the keystore'''
+
+        if card_type == "shc":
+            self._shc_ctm.import_key_database(key_data)
+
     def parse_card_data(self, card_data):
         '''Parses inbound QR code data'''
 

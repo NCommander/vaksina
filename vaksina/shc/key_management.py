@@ -39,12 +39,13 @@ class KeyManagement(object):
         '''Enrolls a key into the Key Management system'''
         loaded_key = KeyManagement._load_pubkey(keydata)
 
+        print(key_id)
         keys = self._key_storage.get(key_id, None)
 
         if keys is None:
             self._key_storage[key_id] = loaded_key
-        else:
-            raise ValueError("Cowardly refusing to enroll duplicate iss keystore")
+        #else:
+            #raise ValueError("Cowardly refusing to enroll duplicate iss keystore")
 
     def _load_pubkey(jwt_pubkey):
         '''Creates jose pubkey objects from JWT JSON'''

@@ -74,7 +74,7 @@ class ShcCardTypeManager(vaksina.CardManager):
         signing_keys = self._key_management.get_keys_for_key_id(
             unsigned_vax_data['iss'])
 
-        declared_key = signing_keys.get(unvalidated_vac_header['kid'])
+        declared_key = signing_keys.get(unvalidated_vac_header['kid'], None)
         if declared_key is None:
             raise Exception("No valid signing key found")
 
@@ -108,3 +108,9 @@ class ShcCardTypeManager(vaksina.CardManager):
     def import_signing_key(self, key_id, key_data):
         '''Imports a given signing key'''
         self._key_management.enroll_key_for_key_id(key_id, key_data)
+
+    def import_key_database(self, keydb):
+        '''Import the key database'''
+        parsed_keys = json.loads(keydb)
+        for iss, keys in parsed_keys.items():
+            self.import_signing_key(iss, keys)

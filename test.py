@@ -10,18 +10,21 @@ from vaksina.validators import Validators
 def main():
     v = Vaksina()
 
-    with open("jwks.json", "r") as f:
-        jwt_json = json.loads(f.read())
-        v.import_signing_key("shc",
-                             "https://spec.smarthealth.cards/examples/issuer",
-                             jwt_json)
+    #with open("jwks.json", "r") as f:
+    #    jwt_json = json.loads(f.read())
+    #    v.import_signing_key("shc",
+    #                         "https://spec.smarthealth.cards/examples/issuer",
+    #                         jwt_json)
 
-    with open("nj-jwks.json", "r") as f:
-        jwt_json = json.loads(f.read())
-        v.import_signing_key("shc",
-            "https://docket.care/nj",
-            jwt_json
-        )
+    with open("data/shc_keys.json", "r") as f:
+        v.import_key_database('shc', f.read())
+
+    #with open("nj-jwks.json", "r") as f:
+    #    jwt_json = json.loads(f.read())
+    #    v.import_signing_key("shc",
+    #        "https://docket.care/nj",
+    #        jwt_json
+    #    )
 
     with open("data/vaccine_info.json") as f:
         v.load_vaccine_info(f.read())

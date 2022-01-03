@@ -1,8 +1,9 @@
 TODO List:
  - UNIT TESTS!!!!!!!!
- - Write first implementation of "checker"
- - Import VCI list of SHC pubkeys
-   - Revocation, would be nice to work
+ - Need more robust downloader tool of VCI key information
+   - *must* log failures for MVP, maybe try multiple at once?
+   - Validate data we get from endpoint is valid JWT tokens 
+     (how?)
  - Draft Flask API in/out
    - REST based API
      - Possible returns
