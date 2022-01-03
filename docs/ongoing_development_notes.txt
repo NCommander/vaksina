@@ -23,7 +23,7 @@ So immunization record exists in the form of:
  immunizations, and determined if they're good to go, plus time from initial shot
  per COVID protocols. This should be implemented as a generic "class" that takes
  Person record in, returns True/False to determine if someone is vaccinated, which
- can be coded independently of the main maksina library (duck typing, yay!)
+ can be coded independently of the main Vaksina library (duck typing, yay!)
  
  Validation Procedure:
   - validate_person, and take Person
