@@ -30,12 +30,11 @@ def main():
     with open("example-01-f-qr-code-numeric-value-0.txt", "r") as f:
         vax_data = v.parse_card_data(f.read())
 
-    print(vars(vax_data[0]))
     for i in vax_data[0].immunizations:
         print(vars(i))
         print(vars(i.vaccine_administered))
 
-    # Validators.validator_osha_1910_501_rules(vax_data[0])
+    print(Validators.validator_osha_1910_501_rules(v, vax_data[0]))
 
 
     # KeyManager = km.KeyManagement()

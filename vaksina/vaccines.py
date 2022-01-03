@@ -24,7 +24,7 @@
 import enum
 import json
 
-class VaccineManager(object):
+class VaccineInfoManager(object):
     '''Manages all data for vaccines as needed'''
     
     def __init__(self):
@@ -55,19 +55,31 @@ class VaccineManager(object):
         
         raise ValueError("Unknown vaccine")
 
+    def get_vaccines_by_required_doses(self, num_of_doses):
+        '''Returns the list of vaccines that only need X doses or less'''
+        list_of_vaccines = []
+        for vaccine in self._known_vaccine_list:
+            if vaccine.required_doses == num_of_doses:
+                list_of_vaccines.append(vaccine)
+
+        return list_of_vaccines
+
 class Vaccine(object):
     '''Base class for vaccines'''
     def __init__(self):
         self.vaccine_identifier = None
-        self.number_of_doses = None
+        self.required_doses = None
         self.recommended_minimum_days_between_doses = None
         self.fhir_codes = []
+
+    def __eq__(self, other):
+        return self.vaccine_identifier == other.vaccine_identifier
 
     def load_from_json(v):
         '''Deserailizes vaccine information from JSON file'''
         vax = Vaccine()
         vax.vaccine_identifier = v['vaccine_identifier']
-        vax.number_of_doses = v['number_of_doses']
+        vax.required_doses = v['required_doses']
         vax.recommended_minimum_days_between_doses = \
             v['recommended_minimum_days_between_doses']
         vax.fhir_codes = v['fhir_codes']

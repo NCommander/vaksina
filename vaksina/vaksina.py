@@ -31,15 +31,15 @@ import vaksina.vaccines
 class Vaksina(object):
     '''Defines public API objects, and holds per instance state information'''
     _shc_ctm = None
-    _vaccine_mgr = None
+    _vaccine_info_mgr = None
 
     def __init__(self):
-        self._vaccine_mgr = vaksina.vaccines.VaccineManager()
-        self._shc_ctm = shc_ctm.ShcCardTypeManager(self._vaccine_mgr)
+        self._vaccine_info_mgr = vaksina.vaccines.VaccineInfoManager()
+        self._shc_ctm = shc_ctm.ShcCardTypeManager(self._vaccine_info_mgr)
 
     def load_vaccine_info(self, raw_file):
         '''Loads data file with all known vaccine information'''
-        self._vaccine_mgr.load_vaccine_info(raw_file)
+        self._vaccine_info_mgr.load_vaccine_info(raw_file)
 
     def import_signing_key(self, card_type, key_id, key_data):
         '''Imports a key into the keystore'''
@@ -56,4 +56,6 @@ class Vaksina(object):
         #  if we get here, no known way to handle it
         raise NotImplemented
 
-    # Get vaccine data via method
+    def get_vaccine_manager(self):
+        '''Returns the initialized vaccine info manager'''
+        return self._vaccine_info_mgr

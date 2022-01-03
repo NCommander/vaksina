@@ -21,11 +21,21 @@
 
 '''Handles various validator functions'''
 
+from datetime import datetime
+
+# Check if user has gotten a one shot vaccine
+def is_immunization_older_than_14_days(immunization):
+    current_datetime = datetime.now()
+    time_since = current_datetime - immunization.date_given
+    if time_since.days > 14:
+        return True
+    return False
+
 class Validators(object):
     def __init__(self):
         pass
 
-    def validator_osha_1910_501_rules(person):
+    def validator_osha_1910_501_rules(v, person):
         '''
         Determines valid vaccination status based off the OSHA
         1910.501 Standard.
@@ -44,8 +54,54 @@ class Validators(object):
         This standard does not account for any boosters in use.
         '''
 
+        vacinfo = v.get_vaccine_manager()
+        one_shot_vaccines = vacinfo.get_vaccines_by_required_doses(1)
+        two_shot_vaccines = vacinfo.get_vaccines_by_required_doses(2)
+
         # Get immunizations for person
         immunizations = person.immunizations
 
-        # Check if user has gotten a one shot vaccine
-        
+        # Handle the simplier one shot test case now ...
+        for immunization in immunizations:
+            for vaccine in one_shot_vaccines:
+                if immunization.is_vaccine(vaccine):
+                    if is_immunization_older_than_14_days(immunization):
+                        return True
+
+        # So validate the two shot test cases now ...
+        person_two_vaccine_dict = dict()
+
+        # both vaccines need to match per current US protocols
+        for immunization in immunizations:
+            for vaccine in two_shot_vaccines:
+                if immunization.is_vaccine(vaccine):
+                    shots = person_two_vaccine_dict.get(vaccine.vaccine_identifier, [])
+                    shots.append(immunization)
+                    person_two_vaccine_dict[vaccine.vaccine_identifier] = shots
+
+        # Now that we have a set of vaccines, we need to determine if
+        # any of these shoots meet criteria
+        #
+        # FIXME: does not work properly with boosters
+
+        for vaccine_series in person_two_vaccine_dict.values():
+            # We need two shots to consider this
+            if len(vaccine_series)  < 2:
+                continue
+
+            # Determine oldest and newest shot
+            oldest_vaccination = vaccine_series[0]
+            newest_vaccination = vaccine_series[0]
+
+            for vaccine in vaccine_series:
+                if oldest_vaccination.date_given > vaccine.date_given:
+                    oldest_vaccination = vaccine
+                if newest_vaccination.date_given < vaccine.date_given:
+                    newest_vaccination = vaccine
+
+                # FIXME: not considering 17 rule from OSHA because that
+                # is the duty of the healthcare provider
+                if is_immunization_older_than_14_days(newest_vaccination):
+                    return True
+
+        return False

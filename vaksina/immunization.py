@@ -25,3 +25,7 @@ class Immunization(object):
         self.date_given = None
         self.lot_number = None
         self._shc_parent_object = None  # used to help assemble records
+
+    def is_vaccine(self, other):
+        '''Two immunizations are considered equal if the same vaccine was given'''
+        return self.vaccine_administered == other

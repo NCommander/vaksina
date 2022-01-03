@@ -2,7 +2,7 @@
     "known_vaccines": [
         {
             "vaccine_identifier": "PFIZER_COMIRNATY",
-            "number_of_doses": 2,
+            "required_doses": 2,
             "recommended_minimum_days_between_doses": 21,
             "fhir_codes": [
                 208,
@@ -12,7 +12,7 @@
         },
         {
             "vaccine_identifier": "MODERNA",
-            "number_of_doses": 1,
+            "required_doses": 2,
             "recommended_minimum_days_between_doses": -1,
             "fhir_codes": [
                 207
@@ -20,7 +20,7 @@
         },
         {
             "vaccine_identifier": "JANSSEN",
-            "number_of_doses": 1,
+            "required_doses": 1,
             "recommended_minimum_days_between_doses": -1,
             "fhir_codes": [
                 212
@@ -28,7 +28,7 @@
         },
         {
             "vaccine_identifier": "ASTRAZENECA",
-            "number_of_doses": 2,
+            "required_doses": 2,
             "recommended_minimum_days_between_doses": -1,
             "fhir_codes": [
                 210
@@ -36,7 +36,7 @@
         },
         {
             "vaccine_identifier": "SINOPHARM",
-            "number_of_doses": 2,
+            "required_doses": 2,
             "recommended_minimum_days_between_doses": -1,
             "fhir_codes": [
                 510
@@ -44,7 +44,7 @@
         },
         {
             "vaccine_identifier": "NOVAVAX",
-            "number_of_doses": 2,
+            "required_doses": 2,
             "recommended_minimum_days_between_doses": -1,
             "fhir_codes": [
                 511
@@ -52,7 +52,7 @@
         },
         {
             "vaccine_identifier": "UNKNOWN",
-            "number_of_doses": -1,
+            "required_doses": -1,
             "recommended_minimum_days_between_doses": -1,
             "fhir_codes": [
                 213
