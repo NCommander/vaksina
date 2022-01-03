@@ -80,7 +80,7 @@ class FHIRParser(object):
             # so register the specific vaccine, right now, just handle the "code"
             immunizations.append(immunization)
 
-        return immunizations
+        return immunization
 
     # {
     #   "resourceType": "Patient",
@@ -111,7 +111,7 @@ class FHIRParser(object):
             for given_name in name['given']:
                 person_name = person_name + given_name + " "
             person_name = person_name + name['family']
-            person.name.append(person_name)
+            person.names.append(person_name)
 
         person.dob = datetime.fromisoformat(resource['birthDate'])
 
@@ -148,8 +148,7 @@ class FHIRParser(object):
                     print("FIXME: handle non-complete status")
                     continue
 
-                immunizations = immunizations + \
-                    self.parse_immunization_record(resource)
+                immunizations.append(self.parse_immunization_record(resource))
             else:
                 # its a record type we don't know/understand
                 print("FIXME: LOGME, UNKNOWN RECORD")

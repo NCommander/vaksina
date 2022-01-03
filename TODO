@@ -1,4 +1,6 @@
 TODO List:
+ - RECONSIDER: Split names loading into firstname/last name for
+               parts of the world that use given names first
  - UNIT TESTS!!!!!!!!
  - Need more robust downloader tool of VCI key information
    - *must* log failures for MVP, maybe try multiple at once?

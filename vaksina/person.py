@@ -21,7 +21,7 @@
 
 class Person(object):
     def __init__(self):
-        self.name = []
+        self.names = []
         """name is a list of names from the vaccination card
 
         At least in theory, it is possible for a SMART Heart Card, or
