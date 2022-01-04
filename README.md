@@ -51,7 +51,17 @@ It should be noted however, that COVID 19 vaccine cards *are not valid* without 
 
 For instance, COVID-19 Checker BadgeLife(tm) would be an amazing thing to see.
 
+## Understanding the connection between objects
 
+While seemingly simple on the surface, the relationship between a person, their immunizations, and a given card is *non-obvious*. As originally implemented, vaksina was coded to handle SMART Health Cards as a rule. In a general sense, this also means it needs to handle FHIR Patient/Immunization data, as that is how the internal data is represented.
+
+A given COVID card can, at least by specification, have multiple people contained within, with differing immunization records, PCR results (not modelled as of yet), *and/or* meeting the criteria for a given set of rules. As such, data needs to modeled in such a way that a card can be decoded to a set of patients, and validation status is handled independent per patient on a per card basis.
+
+This is not entirely intuitive, but it specifically handles various types of test results and more, which should be kept in mine when dealing with the interfaces.
+
+Because Vaksina is intended store-no-data solution, identifiers given to objects are reused, and are only valid in the context of that object in and
+of itself. This is an intentional design decision to re-enforced that this 
+information is not to be stored by a validator application.
 
 ### Useful links
  * https://github.com/the-commons-project/vci-directory - list of PKI providers
