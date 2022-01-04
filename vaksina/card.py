@@ -25,3 +25,16 @@ class Card(object):
         self.card_type = None
         self.issued_by= None
         self.persons = []
+
+    def to_dict(self):
+        '''Convert Card object to dictionary for validation'''
+        c_dict = {}
+        c_dict['card_type'] = self.card_type
+        c_dict['issued_by'] = self.issued_by
+        c_dict['persons'] = []
+        for person in self.persons:
+            c_dict['persons'].append(
+                person.to_dict()
+            )
+
+        return c_dict
