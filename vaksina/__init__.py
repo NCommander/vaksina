@@ -24,3 +24,4 @@ from vaksina.fhir_parser import FHIRParser
 from vaksina.person import Person
 from vaksina.immunization import Immunization
 from vaksina.validators import Validators
+from vaksina.vaksina import Vaksina
