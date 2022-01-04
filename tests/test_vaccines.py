@@ -87,18 +87,18 @@ class TestVaccineManager(unittest.TestCase):
         with self.assertRaises(ValueError):
             vac_mgr.get_vaccine_by_fhir_code(1)
 
-    def test_get_vaccine_by_identifer(self):
-        '''Test if we can find a given vaccine by identifer'''
+    def test_get_vaccine_by_identifier(self):
+        '''Test if we can find a given vaccine by identifier'''
         vac_mgr = get_vac_manager()
-        vaccine = vac_mgr.get_vaccine_by_identifer("MODERNA")
+        vaccine = vac_mgr.get_vaccine_by_identifier("MODERNA")
         self.assertIsNotNone(vaccine)
         self.assertEqual(vaccine.vaccine_identifier, "MODERNA")
 
-    def test_get_vaccine_by_identifer_bad_identifer(self):
-        '''Test if we can find a given vaccine with bad idetnifer'''
+    def test_get_vaccine_by_identifier_bad_identifier(self):
+        '''Test if we can find a given vaccine with bad identifier'''
         vac_mgr = get_vac_manager()
         with self.assertRaises(ValueError):
-            vaccine = vac_mgr.get_vaccine_by_identifer("DOES NOT EXIST")
+            vaccine = vac_mgr.get_vaccine_by_identifier("DOES NOT EXIST")
 
     def test_get_vaccines_by_doses_1(self):
         '''Test if we can retrieve number of vaccines via dose'''
