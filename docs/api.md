@@ -7,9 +7,9 @@ Takes JSON object in from scanning application
  - qr_decode (Required)
  Representation of QR Data with no processing attached
 
- For instance, a smart healthcard would just upload data  in the form of of shc:1234
+ For instance, a smart health card would just upload data in the form of of shc:1234
 
- In case of binary data, data shall be uploaded as Base64
+ In the case of binary data, data shall be uploaded as Base64
 
  - qr_data_type (Required)
 
@@ -46,7 +46,7 @@ Takes JSON object in from scanning application
 ```
 200 OK used to represent success (green check) validation.
 
-JSON object that contains the the following fields
+JSON object that contains the following fields
  * card_validity
  * first_name
  * last_name
