@@ -47,6 +47,8 @@ TEST_BUNDLE_DANGLING_REFERENCE = TEST_DATA_FHIR + \
     'bundle_dangling_reference.json'
 TEST_BUNDLE_MULTIPLE_PEOPLE = TEST_DATA_FHIR + \
     'bundle_multiple_people.json'
+TEST_BUNDLE_URL_COLLISION = TEST_DATA_FHIR + \
+    'bundle_url_collision.json'
 
 # Example test file 2 doesn't have any patient data in it
 TEST_DATA_EXAMPLE_00_FILE = TEST_DATA_SHC + \
@@ -256,6 +258,16 @@ class TestFHIRParser(unittest.TestCase):
 
         self.validate_john_b_anyperson(john_p)
         self.validate_jane_c_anyperson(jane_p)
+
+    def test_proepr_bailout_with_duplicate_url(self):
+        '''Test decoding official sample 00 fhir bundle'''
+        fhir_parser = fp.FHIRParser(self.vaccine_mgr)
+
+        with open(TEST_BUNDLE_URL_COLLISION) as f:
+            json_parse = json.loads(f.read())
+        
+        with self.assertRaises(ValueError):
+            fhir_parser.parse_bundle_to_persons(json_parse)
 
     ## Down here, we test that we can successfully read/load official
     ## specification data. Example 2 is expected to fail as is it is

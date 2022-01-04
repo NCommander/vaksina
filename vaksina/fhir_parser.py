@@ -140,12 +140,23 @@ class FHIRParser(object):
         # freeform, so yay ...
 
         person_uris = dict()
+        seen_full_urls = set()
+
+        # URLs in SMART Health Cards are freeform, and are used to
+        # link objects together. Its possible in a case of multiple
+        # people on a given card that a URL duplication could be used
+        # as an attack. As a safeguard, load all URLs as seen, and
+        # bail out *if* we get a duplicate
 
         immunizations = []
 
         for entry in bundle['entry']:
             # Determine what type of resource we're looking at
             resource = entry['resource']
+            if entry['fullUrl'] in seen_full_urls:
+                raise ValueError("Duplicate URL Detected")
+
+            seen_full_urls.add(entry['fullUrl'])
 
             if resource['resourceType'] == 'Patient':
                 person = self.parse_person_record(resource)
