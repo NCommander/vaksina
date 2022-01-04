@@ -19,30 +19,39 @@
 # SOFTWARE.
 #
 
-class Card(object):
-    '''Represents a COVID-19 Card'''
-    def __init__(self):
-        self.card_type = None
-        self.issued_by= None
-        self.persons = {}
-        self._person_count = 0
+class Cardset(object):
+    '''A cardset contains a set of scanned cards, and can be processed
+    en-mass to handle validation results as a single top level result
+    subtle for serialization and validation'''
 
-    def add_person(self, card):
-        '''Adds a person to the card'''
-        person_key = "person" + str(self._person_count)
-        self.persons[person_key] = card
-        self._person_count = self._person_count +1
+    def __init__(self):
+        self._cards = {}
+        self._validation_results = {}
+        self._card_count = 0
+
+    def add_card(self, card):
+        '''Adds a card to a cardset'''
+
+        card_key = "card" + str(self._card_count)
+        self._cards[card_key] = card
+        self._card_count = self._card_count +1
+
+    def validate_cardset(self, v_obj):
+        '''Validates card with a given validator object'''
+        pass
 
     def to_dict(self):
-        '''Convert Card object to dictionary for validation'''
-        c_dict = {}
-        c_dict['card_type'] = self.card_type
-        c_dict['issued_by'] = self.issued_by
-        person_dict = {}
+        '''Convert cardset to dict for serialization'''
+        cs_dict = {}
+        validation_status_dict = {}
+        card_content_dict = {}
 
-        for pkey, person in self.persons.items():
-            person_dict[pkey] = person.to_dict()
+        # FIXME: implement validation serialization
+        for cardname, card in self._cards.items():
+            card_content_dict[cardname] = card.to_dict()
 
-        c_dict['persons'] = person_dict
-        
-        return c_dict
+        cs_dict['card_validation_status'] = {}
+        cs_dict['card_content'] = card_content_dict
+
+        return cs_dict
+
