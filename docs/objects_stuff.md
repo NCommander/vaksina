@@ -1,4 +1,4 @@
-Vaksina Top Level Object
+Vaksina Top-Level Object
 ===
 
 Defines the public API for the Vaksina library
@@ -6,7 +6,7 @@ Defines the public API for the Vaksina library
 CardTypeManager
 ===
 
-The manager acts as a top level facility for processing various cards, and dispatches
+The manager acts as a top-level facility for processing various cards, and dispatches
 as needed. i.e., it will handle creating all SHC key manage stuff, and more, ready for
 processing
 
@@ -23,14 +23,14 @@ A card MUST have the following information
 * Date of Birth
 * Immunization Record (if possible)
 
-CardObjects get passed to Validation modules to determine if holder is *actually* vaccinated
+CardObjects get passed to Validation modules to determine if the holder is *actually* vaccinated
 
 Person
 ===
 
 A Person is the end result created from parsing a given card
 
-... probably should have a unique identifer if storage backed
+... probably should have a unique identifier if storage backed
 
 A Person object is created from parsing card objects in a card manager
 
@@ -41,4 +41,4 @@ A Person contains the following information
    - Could include PCR tests/rapid antigen
    - Must include vaccination complete with status
 
-Can be processed by a validator module to determine status
+Can be processed by a validator module to the determine status
