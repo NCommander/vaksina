@@ -29,3 +29,10 @@ class Immunization(object):
     def is_vaccine(self, other):
         '''Two immunizations are considered equal if the same vaccine was given'''
         return self.vaccine_administered == other
+
+    def to_dict(self):
+        i_dict = {}
+        i_dict['vaccine_administered'] = self.vaccine_administered.vaccine_identifier
+        i_dict['date_given'] = self.date_given.strftime("%Y-%m-%d")
+        i_dict['lot_number'] = self.lot_number
+        return i_dict

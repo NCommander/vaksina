@@ -19,10 +19,9 @@
 # SOFTWARE.
 #
 
-from vaksina.card import Card
-from vaksina.card_manager import CardManager
-from vaksina.fhir_parser import FHIRParser
-from vaksina.person import Person
-from vaksina.immunization import Immunization
-from vaksina.validators import Validators
-from vaksina.vaksina import Vaksina
+class Card(object):
+    '''Represents a COVID-19 Card'''
+    def __init__(self):
+        self.card_type = None
+        self.issued_by= None
+        self.persons = []

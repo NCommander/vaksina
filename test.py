@@ -37,7 +37,9 @@ def main():
     #    print(vars(i))
     #    print(vars(i.vaccine_administered))
 
-    print(Validators.validator_osha_1910_501_rules(v, vax_data[0]))
+    import pprint
+    pprint.pprint(vax_data.issued_by)
+    #print(Validators.validator_osha_1910_501_rules(v, vax_data[0]))
 
 
     # KeyManager = km.KeyManagement()
