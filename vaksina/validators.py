@@ -31,6 +31,19 @@ def is_immunization_older_than_14_days(immunization):
         return True
     return False
 
+class ValidationResult(object):
+    def __init__(self):
+        self.card_validation_status = "invalid"
+        self.validation_errors = None
+
+    def to_dict(self):
+        vr_dict = {}
+        vr_dict['card_validation_status'] = self.card_validation_status
+        vr_dict['card_decoded_content'] = self.card_decoded_content
+        if self.validation_error is not None:
+            vr_dict['validation_errors'] = self.validation_errors
+        return vr_dict
+
 class Validators(object):
     def __init__(self):
         pass
@@ -57,6 +70,8 @@ class Validators(object):
         vacinfo = v.get_vaccine_manager()
         one_shot_vaccines = vacinfo.get_vaccines_by_required_doses(1)
         two_shot_vaccines = vacinfo.get_vaccines_by_required_doses(2)
+
+        result = ValidationResult()
 
         # Get immunizations for person
         immunizations = person.immunizations

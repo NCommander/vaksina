@@ -38,7 +38,7 @@ def main():
     #    print(vars(i.vaccine_administered))
 
     import pprint
-    pprint.pprint(vax_data.issued_by)
+    pprint.pprint(vax_data.issued_by.to_dict())
     #print(Validators.validator_osha_1910_501_rules(v, vax_data[0]))
 
 
