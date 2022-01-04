@@ -58,13 +58,14 @@ class FHIRParser(object):
         # multishot COVID vaccinations that *are* given at later
         # point, because data structures are important
 
+        if resource['resourceType'] != 'Immunization':
+            raise ValueError("Non-immunization record passed")
+
         immunizations = []
         vaccine_code = resource['vaccineCode']
         for code in vaccine_code['coding']:
             if code['system'] != 'http://hl7.org/fhir/sid/cvx':
-                # Unknown coding
-                print("ERROR: unknown vaccine coding system")
-                continue
+                raise ValueError("Unknown vaccine coding system")
 
             immunization = v.Immunization()
             immunization.lot_number = resource['lotNumber']
@@ -80,7 +81,7 @@ class FHIRParser(object):
             # so register the specific vaccine, right now, just handle the "code"
             immunizations.append(immunization)
 
-        return immunizations
+        return immunization
 
     # {
     #   "resourceType": "Patient",
@@ -97,7 +98,18 @@ class FHIRParser(object):
     # }
 
     def parse_person_record(self, resource):
-        '''Converts FHIR data into People Records'''
+        '''Converts FHIR data into People Records
+        
+        NOTE: Currently only data related to completed vaccinations
+        is considered by this function. This may change on a later
+        date if needed.
+        
+        To be specific, any immunization record that is not 'completed'
+        is silently discarded.
+        '''
+
+        if resource['resourceType'] != 'Patient':
+            raise ValueError("Non-patient record passed")
 
         person = v.Person()
 
@@ -111,7 +123,7 @@ class FHIRParser(object):
             for given_name in name['given']:
                 person_name = person_name + given_name + " "
             person_name = person_name + name['family']
-            person.name.append(person_name)
+            person.names.append(person_name)
 
         person.dob = datetime.fromisoformat(resource['birthDate'])
 
@@ -128,12 +140,23 @@ class FHIRParser(object):
         # freeform, so yay ...
 
         person_uris = dict()
+        seen_full_urls = set()
+
+        # URLs in SMART Health Cards are freeform, and are used to
+        # link objects together. Its possible in a case of multiple
+        # people on a given card that a URL duplication could be used
+        # as an attack. As a safeguard, load all URLs as seen, and
+        # bail out *if* we get a duplicate
 
         immunizations = []
 
         for entry in bundle['entry']:
             # Determine what type of resource we're looking at
             resource = entry['resource']
+            if entry['fullUrl'] in seen_full_urls:
+                raise ValueError("Duplicate URL Detected")
+
+            seen_full_urls.add(entry['fullUrl'])
 
             if resource['resourceType'] == 'Patient':
                 person = self.parse_person_record(resource)
@@ -144,15 +167,26 @@ class FHIRParser(object):
                 # ok, special case here, we only handle an immunizaiton
                 # if it was actually completed, otherwise, disregard
                 if resource['status'] != 'completed':
-                    # FIXME: check this
-                    print("FIXME: handle non-complete status")
+                    # FHIR specification notes that status can be one
+                    # of the following values
+                    #
+                    # - completed
+                    # - entered-in-error
+                    # - not-done
+                    #
+                    # As such, we can completely disregard any not completed
+                    # records as they will never count towards determine 
+                    # vaccination status
+                    # FIXME: debug logger
                     continue
 
-                immunizations = immunizations + \
-                    self.parse_immunization_record(resource)
-            else:
-                # its a record type we don't know/understand
-                print("FIXME: LOGME, UNKNOWN RECORD")
+                immunizations.append(self.parse_immunization_record(resource))
+
+            # Coverage isn't properly handling an else class here
+            #
+            # IF we get here, then we're got an unknown record and ignoring
+            # if
+            # FIXME: Implement debug logger
 
         # Assiocate immunity records with patient records
         for immunization in immunizations:

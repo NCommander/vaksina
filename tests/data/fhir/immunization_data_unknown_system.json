@@ -1,0 +1,24 @@
+{
+    "resourceType": "Immunization",
+    "status": "completed",
+    "vaccineCode": {
+        "coding": [
+            {
+                "system": "http://invalid.example/1234",
+                "code": "haha"
+            }
+        ]
+    },
+    "patient": {
+        "reference": "resource:0"
+    },
+    "occurrenceDateTime": "2021-01-01",
+    "performer": [
+        {
+            "actor": {
+                "display": "ABC General Hospital"
+            }
+        }
+    ],
+    "lotNumber": "0000001"
+}
