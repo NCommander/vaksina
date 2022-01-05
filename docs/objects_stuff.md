@@ -5,8 +5,7 @@ Defines the public API for the Vaksina library
 ## CardTypeManager
 
 The manager acts as a top level facility for processing various cards, and dispatches
-as needed. i.e., it will handle creating all SHC key manage stuff, and more, ready for
-processing
+as needed. i.e., it will handle creating all SHC key manage stuff, and more, ready for processing
 
 ## CardObjects
 
