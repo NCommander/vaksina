@@ -19,11 +19,29 @@
 # SOFTWARE.
 #
 
-from vaksina.card import Card
-from vaksina.cardset import Cardset
-from vaksina.card_manager import CardManager
-from vaksina.fhir_parser import FHIRParser
-from vaksina.person import Person
-from vaksina.immunization import Immunization
-from vaksina.validators import Validators
-from vaksina.vaksina import Vaksina
+class Cardset(object):
+    '''A cardset contains a set of scanned cards, and can be processed
+    en-mass to handle validation results as a single top level result
+    subtle for serialization and validation'''
+
+    def __init__(self):
+        self._cards = {}
+        self._card_count = 0
+
+    def add_card(self, card):
+        '''Adds a card to a cardset'''
+
+        card_key = "card" + str(self._card_count)
+        self._cards[card_key] = card
+        self._card_count = self._card_count +1
+
+    def to_dict(self):
+        '''Convert cardset to dict for serialization'''
+        card_content_dict = {}
+
+        # FIXME: implement validation serialization
+        for cardname, card in self._cards.items():
+            card_content_dict[cardname] = card.to_dict()
+
+        return card_content_dict
+

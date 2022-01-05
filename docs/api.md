@@ -19,30 +19,34 @@ Takes JSON object in from scanning application
 
 ```
 {
-    card_validation_status = "good"
-    card_decoded_content: {
-        card_type: "smart_health_card",
-        first_name: "John",
-        last_name: "C. Anybody",
-        immunizations: [
+    "card_validation_status": "good",
+    "card_decoded_content": {
+        "card_type": "smart_health_card",
+        "persons": [
             {
-                vaccine: "MODERNA",
-                given_on: "01-01-2021",
-                lot_number: "1"
-            },
-            {
-                vaccine: "MODERNA",
-                given_on: "01-29-2021",
-                lot_number: "20"
-
-            },
+                "names" : [
+                    "John A. Person",
+                    "John B. Person2"
+                ],
+                "dob": "01-05-1950",
+                "immunizations": [
+                    {
+                        "vaccine": "MODERNA",
+                        "given_on": "01-01-2021",
+                        "lot_number": "1"
+                    },
+                    {
+                        "vaccine": "MODERNA",
+                        "given_on": "01-29-2021",
+                        "lot_number": "20"
+                    }
+                ]
+            }
         ],
-        issued_by: "Example Issuer"
-        ]
-    }
-    validation_error = ""
+        "issued_by": "Example Issuer"
+    },
+    "validation_error": ""
 }
-
 ```
 200 OK used to represent success (green check) validation.
 

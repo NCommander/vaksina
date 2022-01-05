@@ -1,11 +1,19 @@
 TODO List:
+
+Immediate TODOs:
+ - Implement handling of validation of VaccineSet data
+ - Have API have configuration information
+ - Generate the JSON file as seen in api.md
+ - Unit test all the way up
+ - QR code front end, either in PyQT or JavaScript ...
+ 
  - RECONSIDER: Split names loading into firstname/last name for
                parts of the world that use given names first
  - CONSIDER: Specific Exception types for given fail modes
  - CONSIDER: how do we represent entered-in-error or not-given
              FHIR codes. Currently disregarded on bundle parsing
              but could be made an option flag for various reasons
-             ...               
+             ...
  - Implement debug logger that explains in depth why card may
    have been rejected
  - UNIT TESTS!!!!!!!!
@@ -14,6 +22,10 @@ TODO List:
    - *must* log failures for MVP, maybe try multiple at once?
    - Validate data we get from endpoint is valid JWT tokens 
      (how?)
+ - Key management database needs to contain metainfo about issuers
+   - Reason being is that SHC have iss fields like this: 
+   https://epicproxy.et0502.epichosted.com/EPPARRPRD/api/epic/2021/Security/Open/EcKeys/32001/SHC
+   which tells you nothing about who hosted the card
  - Draft Flask API in/out
    - REST based API
      - Possible returns

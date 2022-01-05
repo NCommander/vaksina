@@ -31,11 +31,23 @@ def is_immunization_older_than_14_days(immunization):
         return True
     return False
 
-class Validators(object):
+class ValidationResult(object):
     def __init__(self):
-        pass
+        self.card_validation_status = "invalid"
+        self.validation_errors = None
 
-    def validator_osha_1910_501_rules(v, person):
+    def to_dict(self):
+        vr_dict = {}
+        vr_dict['card_validation_status'] = self.card_validation_status
+        if self.validation_errors is not None:
+            vr_dict['validation_errors'] = self.validation_errors
+        return vr_dict
+
+class Validators(object):
+    def __init__(self, v):
+        self.v_obj = v
+
+    def validator_osha_1910_501_rules(self, person):
         '''
         Determines valid vaccination status based off the OSHA
         1910.501 Standard.
@@ -54,9 +66,11 @@ class Validators(object):
         This standard does not account for any boosters in use.
         '''
 
-        vacinfo = v.get_vaccine_manager()
+        vacinfo = self.v_obj.get_vaccine_manager()
         one_shot_vaccines = vacinfo.get_vaccines_by_required_doses(1)
         two_shot_vaccines = vacinfo.get_vaccines_by_required_doses(2)
+
+        result = ValidationResult()
 
         # Get immunizations for person
         immunizations = person.immunizations
@@ -66,7 +80,8 @@ class Validators(object):
             for vaccine in one_shot_vaccines:
                 if immunization.is_vaccine(vaccine):
                     if is_immunization_older_than_14_days(immunization):
-                        return True
+                        result.card_validation_status = "success"
+                        return
 
         # So validate the two shot test cases now ...
         person_two_vaccine_dict = dict()
@@ -102,6 +117,8 @@ class Validators(object):
                 # FIXME: not considering 17 rule from OSHA because that
                 # is the duty of the healthcare provider
                 if is_immunization_older_than_14_days(newest_vaccination):
-                    return True
-
-        return False
+                    result.card_validation_status = "success"
+                    return result
+        
+        result.card_validation_status = "failed"
+        return result

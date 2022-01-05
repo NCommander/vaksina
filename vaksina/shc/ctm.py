@@ -105,8 +105,14 @@ class ShcCardTypeManager(vaksina.CardManager):
             raise ValueError("Not a supported type of card")
 
         # Now we need to decode the FHIR data
-        return self._fhir_parser.parse_bundle_to_persons(
+        c = vaksina.Card()
+        c.card_type = 'smart_health_card'
+        c.issued_by = vax_data['iss']
+        persons = self._fhir_parser.parse_bundle_to_persons(
             vax_data['vc']['credentialSubject']['fhirBundle'])
+        for person in persons:
+            c.add_person(person)
+        return c
 
     def import_signing_key(self, key_id, key_data):
         '''Imports a given signing key'''

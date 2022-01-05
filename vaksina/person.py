@@ -19,6 +19,8 @@
 # SOFTWARE.
 #
 
+from datetime import datetime
+
 class Person(object):
     def __init__(self):
         self.names = []
@@ -45,3 +47,19 @@ class Person(object):
         in other cards) is included, since this is not intended as a general purpose
         health record tool, merely a validator for COVID-19 QR codes
         """
+
+    def to_dict(self):
+        '''Serializes data to a dictionary for use in JSON, etc.'''
+        person_dict = {}
+        person_dict['name'] = []
+        for name in self.names:
+            person_dict['name'].append(name)
+        
+        person_dict['dob'] = self.dob.strftime("%Y-%m-%d")
+        person_dict['immunizations'] = []
+        for immunization in self.immunizations:
+            person_dict['immunizations'].append(
+                immunization.to_dict()
+            )
+
+        return person_dict
