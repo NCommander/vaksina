@@ -1,4 +1,12 @@
 TODO List:
+
+Immediate TODOs:
+ - Implement handling of validation of VaccineSet data
+ - Have API have configuration information
+ - Generate the JSON file as seen in api.md
+ - Unit test all the way up
+ - QR code front end, either in PyQT or JavaScript ...
+ 
  - RECONSIDER: Split names loading into firstname/last name for
                parts of the world that use given names first
  - CONSIDER: Specific Exception types for given fail modes

@@ -26,7 +26,6 @@ class Cardset(object):
 
     def __init__(self):
         self._cards = {}
-        self._validation_results = {}
         self._card_count = 0
 
     def add_card(self, card):
@@ -36,22 +35,13 @@ class Cardset(object):
         self._cards[card_key] = card
         self._card_count = self._card_count +1
 
-    def validate_cardset(self, v_obj):
-        '''Validates card with a given validator object'''
-        pass
-
     def to_dict(self):
         '''Convert cardset to dict for serialization'''
-        cs_dict = {}
-        validation_status_dict = {}
         card_content_dict = {}
 
         # FIXME: implement validation serialization
         for cardname, card in self._cards.items():
             card_content_dict[cardname] = card.to_dict()
 
-        cs_dict['card_validation_status'] = {}
-        cs_dict['card_content'] = card_content_dict
-
-        return cs_dict
+        return card_content_dict
 
