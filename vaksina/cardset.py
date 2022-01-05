@@ -19,24 +19,25 @@
 # SOFTWARE.
 #
 
+
 class Cardset(object):
-    '''A cardset contains a set of scanned cards, and can be processed
+    """A cardset contains a set of scanned cards, and can be processed
     en-mass to handle validation results as a single top level result
-    subtle for serialization and validation'''
+    subtle for serialization and validation"""
 
     def __init__(self):
         self._cards = {}
         self._card_count = 0
 
     def add_card(self, card):
-        '''Adds a card to a cardset'''
+        """Adds a card to a cardset"""
 
         card_key = "card" + str(self._card_count)
         self._cards[card_key] = card
-        self._card_count = self._card_count +1
+        self._card_count = self._card_count + 1
 
     def to_dict(self):
-        '''Convert cardset to dict for serialization'''
+        """Convert cardset to dict for serialization"""
         card_content_dict = {}
 
         # FIXME: implement validation serialization
@@ -44,4 +45,3 @@ class Cardset(object):
             card_content_dict[cardname] = card.to_dict()
 
         return card_content_dict
-

@@ -29,7 +29,7 @@ setup(
     version="0.1",
     packages=find_packages(exclude=("tests",)),
     install_requires=[
-        'python-jose[cryptography]',
+        "python-jose[cryptography]",
     ],
-    test_suite="tests"
+    test_suite="tests",
 )

@@ -1,23 +1,25 @@
-## REST/RPC API Notes
+# REST/RPC API Notes
 
-### /v1/card_data_submission:
+## /v1/card_data_submission
+
 Takes JSON object in from scanning application
 
-#### POST
- - qr_decode (Required)
- Representation of QR Data with no processing attached
+### POST
 
- For instance, a smart healthcard would just upload data  in the form of of shc:1234
+- qr_decode (Required)
+Representation of QR Data with no processing attached
 
- In case of binary data, data shall be uploaded as Base64
+For instance, a smart healthcard would just upload data  in the form of of shc:1234
 
- - qr_data_type (Required)
+In case of binary data, data shall be uploaded as Base64
 
- QR data type (MIME type(?), check QR standards)
+- qr_data_type (Required)
 
-#### Returns
+QR data type (MIME type(?), check QR standards)
 
-```
+### Returns
+
+```json
 {
     "card_validation_status": "good",
     "card_decoded_content": {
@@ -48,17 +50,16 @@ Takes JSON object in from scanning application
     "validation_error": ""
 }
 ```
+
 200 OK used to represent success (green check) validation.
 
 JSON object that contains the the following fields
- * card_validity
- * first_name
- * last_name
- * immunizations (object)
- * last_administered
- * issued_by
 
+- card_validity
+- first_name
+- last_name
+- immunizations (object)
+- last_administered
+- issued_by
 
-400 Bad Request used for Red Check/Grey Check
-
- 
+400 Bad Request used for Red Check/Grey Check.

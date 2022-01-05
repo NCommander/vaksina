@@ -19,11 +19,10 @@
 # SOFTWARE.
 #
 
+import json
 import unittest
-
 from datetime import datetime
 
-import json
 import vaksina.fhir_parser as fp
 import vaksina.vaccines as vac
 

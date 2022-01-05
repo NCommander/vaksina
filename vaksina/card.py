@@ -19,30 +19,32 @@
 # SOFTWARE.
 #
 
+
 class Card(object):
-    '''Represents a COVID-19 Card'''
+    """Represents a COVID-19 Card"""
+
     def __init__(self):
         self.card_type = None
-        self.issued_by= None
+        self.issued_by = None
         self.persons = {}
         self._person_count = 0
 
     def add_person(self, card):
-        '''Adds a person to the card'''
+        """Adds a person to the card"""
         person_key = "person" + str(self._person_count)
         self.persons[person_key] = card
-        self._person_count = self._person_count +1
+        self._person_count = self._person_count + 1
 
     def to_dict(self):
-        '''Convert Card object to dictionary for validation'''
+        """Convert Card object to dictionary for validation"""
         c_dict = {}
-        c_dict['card_type'] = self.card_type
-        c_dict['issued_by'] = self.issued_by
+        c_dict["card_type"] = self.card_type
+        c_dict["issued_by"] = self.issued_by
         person_dict = {}
 
         for pkey, person in self.persons.items():
             person_dict[pkey] = person.to_dict()
 
-        c_dict['persons'] = person_dict
-        
+        c_dict["persons"] = person_dict
+
         return c_dict

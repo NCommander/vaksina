@@ -21,16 +21,18 @@
 
 import unittest
 
+
 class TestSkeleton(unittest.TestCase):
-    '''Basic test skeleton'''
+    """Basic test skeleton"""
+
     def setUp(self):
-        '''Do test setup stuff'''
+        """Do test setup stuff"""
         pass
 
     def tearDown(self):
-        '''If teardown is needed'''
+        """If teardown is needed"""
         pass
 
     def test_hello(self):
-        '''Tests that the test envirnment exists'''
+        """Tests that the test envirnment exists"""
         pass
