@@ -66,5 +66,5 @@ information is not to be stored by a validator application.
 
 #### Useful links
 
-- <https://github.com/the-commons-project/vci-directory> - list of PKI providers
-- <https://github.com/Path-Check/who-verifier-app> - Android no data kept FOSS app
+* <https://github.com/the-commons-project/vci-directory> - list of PKI providers
+* <https://github.com/Path-Check/who-verifier-app> - Android no data kept FOSS app

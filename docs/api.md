@@ -7,15 +7,15 @@ Takes JSON object in from scanning application
 ### POST
 
 - qr_decode (Required)
-Representation of QR Data with no processing attached
+ Representation of QR Data with no processing attached
 
-- For instance, a smart healthcard would just upload data  in the form of of shc:1234
+ For instance, a smart healthcard would just upload data  in the form of of shc:1234
 
-- In case of binary data, data shall be uploaded as Base64
+ In case of binary data, data shall be uploaded as Base64
 
 - qr_data_type (Required)
 
-- QR data type (MIME type(?), check QR standards)
+ QR data type (MIME type(?), check QR standards)
 
 ### Returns
 
@@ -62,4 +62,4 @@ JSON object that contains the the following fields
 - last_administered
 - issued_by
 
-400 Bad Request used for Red Check/Grey Check.
+400 Bad Request used for Red Check/Grey Check
