@@ -1,136 +1,136 @@
 {
-  "resourceType": "Bundle",
-  "type": "collection",
-  "entry": [
-    {
-      "fullUrl": "resource:0",
-      "resource": {
-        "resourceType": "Patient",
-        "name": [
-          {
-            "family": "Anyperson",
-            "given": [
-              "John",
-              "B."
+    "resourceType": "Bundle",
+    "type": "collection",
+    "entry": [
+      {
+        "fullUrl": "resource:0",
+        "resource": {
+          "resourceType": "Patient",
+          "name": [
+            {
+              "family": "Anyperson",
+              "given": [
+                "John",
+                "B."
+              ]
+            }
+          ],
+          "birthDate": "1951-01-20"
+        }
+      },
+      {
+        "fullUrl": "resource:1",
+        "resource": {
+          "resourceType": "Immunization",
+          "status": "completed",
+          "vaccineCode": {
+            "coding": [
+              {
+                "system": "http://hl7.org/fhir/sid/cvx",
+                "code": "207"
+              }
             ]
-          }
-        ],
-        "birthDate": "1951-01-20"
-      }
-    },
-    {
-      "fullUrl": "resource:1",
-      "resource": {
-        "resourceType": "Immunization",
-        "status": "completed",
-        "vaccineCode": {
-          "coding": [
+          },
+          "patient": {
+            "reference": "resource:0"
+          },
+          "occurrenceDateTime": "2021-01-01",
+          "performer": [
             {
-              "system": "http://hl7.org/fhir/sid/cvx",
-              "code": "207"
+              "actor": {
+                "display": "ABC General Hospital"
+              }
+            }
+          ],
+          "lotNumber": "0000001"
+        }
+      },
+      {
+        "fullUrl": "resource:2",
+        "resource": {
+          "resourceType": "Immunization",
+          "status": "completed",
+          "vaccineCode": {
+            "coding": [
+              {
+                "system": "http://hl7.org/fhir/sid/cvx",
+                "code": "207"
+              }
+            ]
+          },
+          "patient": {
+            "reference": "resource:0"
+          },
+          "occurrenceDateTime": "2021-01-29",
+          "performer": [
+            {
+              "actor": {
+                "display": "ABC General Hospital"
+              }
+            }
+          ],
+          "lotNumber": "0000007"
+        }
+      },
+      {
+        "fullUrl": "resource:3",
+        "resource": {
+          "resourceType": "DiagnosticReport",
+          "identifier": [
+            {
+              "system": "http://acme.com/lab/reports",
+              "value": "ghp-example"
+            }
+          ],
+          "status": "final",
+          "code": {
+            "coding": [
+              {
+                "system": "http://acme.com/labs/reports",
+                "code": "GHP"
+              }
+            ]
+          },
+          "subject": {
+            "reference": "resource:0"
+          },
+          "effectiveDateTime": "2015-08-16T06:40:17Z",
+          "issued": "2015-08-17T06:40:17Z",
+          "performer": [
+            {
+              "reference": "Organization/1832473e-2fe0-452d-abe9-3cdb9879522f",
+              "display": "Acme Laboratory, Inc"
+            }
+          ],
+          "specimen": [
+            {
+              "reference": "resource:1",
+              "display": "Red Top Tube"
+            },
+            {
+              "reference": "resource:2",
+              "display": "Lavender Top Tube"
+            },
+            {
+              "reference": "resource:3",
+              "display": "Urine Sample"
+            }
+          ],
+          "result": [
+            {
+              "reference": "resource:22",
+              "display": "Chemistry Panel"
+            },
+            {
+              "reference": "resource:4",
+              "display": "CBC"
+            },
+            {
+              "reference": "resource:45",
+              "display": "Urinalysis"
             }
           ]
-        },
-        "patient": {
-          "reference": "resource:0"
-        },
-        "occurrenceDateTime": "2021-01-01",
-        "performer": [
-          {
-            "actor": {
-              "display": "ABC General Hospital"
-            }
-          }
-        ],
-        "lotNumber": "0000001"
+        }
       }
-    },
-    {
-      "fullUrl": "resource:2",
-      "resource": {
-        "resourceType": "Immunization",
-        "status": "completed",
-        "vaccineCode": {
-          "coding": [
-            {
-              "system": "http://hl7.org/fhir/sid/cvx",
-              "code": "207"
-            }
-          ]
-        },
-        "patient": {
-          "reference": "resource:0"
-        },
-        "occurrenceDateTime": "2021-01-29",
-        "performer": [
-          {
-            "actor": {
-              "display": "ABC General Hospital"
-            }
-          }
-        ],
-        "lotNumber": "0000007"
-      }
-    },
-    {
-      "fullUrl": "resource:3",
-      "resource": {
-        "resourceType": "DiagnosticReport",
-        "identifier": [
-          {
-            "system": "http://acme.com/lab/reports",
-            "value": "ghp-example"
-          }
-        ],
-        "status": "final",
-        "code": {
-          "coding": [
-            {
-              "system": "http://acme.com/labs/reports",
-              "code": "GHP"
-            }
-          ]
-        },
-        "subject": {
-          "reference": "resource:0"
-        },
-        "effectiveDateTime": "2015-08-16T06:40:17Z",
-        "issued": "2015-08-17T06:40:17Z",
-        "performer": [
-          {
-            "reference": "Organization/1832473e-2fe0-452d-abe9-3cdb9879522f",
-            "display": "Acme Laboratory, Inc"
-          }
-        ],
-        "specimen": [
-          {
-            "reference": "resource:1",
-            "display": "Red Top Tube"
-          },
-          {
-            "reference": "resource:2",
-            "display": "Lavender Top Tube"
-          },
-          {
-            "reference": "resource:3",
-            "display": "Urine Sample"
-          }
-        ],
-        "result": [
-          {
-            "reference": "resource:22",
-            "display": "Chemistry Panel"
-          },
-          {
-            "reference": "resource:4",
-            "display": "CBC"
-          },
-          {
-            "reference": "resource:45",
-            "display": "Urinalysis"
-          }
-        ]
-      }
-    }
-  ]
-}
+    ]
+  }
