@@ -1,3 +1,16 @@
+---
+title: "Vaksina COVID QR Validation Checker"
+author:
+  - Michael Casadevall (Original author)
+  - Pedro Vicente Seoane Prado (Markdown checker and translator to spanish)
+  - Sander Speetjens (Typo checker)
+  - Guiorgy (Typo checker)
+  - PancakeSparkle (Typo checker)
+date: 2022-01-01
+category: COVID-19
+tags: [COVID-19, QR, COVID, CARD, PASSPORT, SMARTH HEALTH CARD]
+---
+
 # Vaksina COVID QR Validation Checker
 
 **NOTE**: Under best case scenarios, when combined with national ID of some sort, a COVID QR checker can provide assurances that a given person is properly vaccinated. However, especially in certain areas with non-centralized issuing, it is possible to have cases where an individual will not have a valid digital record because it was split into multiple locations or registries. As such **this application** can only be used to streamline the best scenario, and not as a replacement for manual checking.
