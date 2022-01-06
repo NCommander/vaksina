@@ -19,7 +19,7 @@
 # SOFTWARE.
 #
 
-'''So this module exists because the reference implementations parse
+"""So this module exists because the reference implementations parse
 that can handle the SMART FHIRs data is in development, poorly documented
 and to quote the *official* SMARTS specification, you can hack it 
 together from a bunch of freestandin libraries. Since there's no 
@@ -28,7 +28,7 @@ providers that will DIY it, and do it wrong.
 
 So, unfortunately, we're going to have to parse this ourselves.
 
-This is going to suck ~ NCommander'''
+This is going to suck ~ NCommander"""
 
 import json
 from datetime import datetime
@@ -36,9 +36,11 @@ from datetime import datetime
 import vaksina as v
 import vaksina.vaccines as vc
 
+
 class FHIRParser(object):
     def __init__(self, vaccine_mgr):
         self.vaccine_mgr = vaccine_mgr
+
     # {'lotNumber': '0000001',
     #  'occurrenceDateTime': '2021-01-01',
     #  'patient': {'reference': 'resource:0'},
@@ -49,7 +51,7 @@ class FHIRParser(object):
     #                              'system': 'http://hl7.org/fhir/sid/cvx'}]}}
 
     def parse_immunization_record(self, resource):
-        '''Confirms FHIR Immunization record to object'''
+        """Confirms FHIR Immunization record to object"""
 
         # It's possible that multiple vaccines can be given in
         # single day. This isn't done for COVID per say, but
@@ -58,25 +60,28 @@ class FHIRParser(object):
         # multishot COVID vaccinations that *are* given at later
         # point, because data structures are important
 
-        if resource['resourceType'] != 'Immunization':
+        if resource["resourceType"] != "Immunization":
             raise ValueError("Non-immunization record passed")
 
         immunizations = []
-        vaccine_code = resource['vaccineCode']
-        for code in vaccine_code['coding']:
-            if code['system'] != 'http://hl7.org/fhir/sid/cvx':
+        vaccine_code = resource["vaccineCode"]
+        for code in vaccine_code["coding"]:
+            if code["system"] != "http://hl7.org/fhir/sid/cvx":
                 raise ValueError("Unknown vaccine coding system")
 
             immunization = v.Immunization()
-            immunization.lot_number = resource['lotNumber']
+            immunization.lot_number = resource["lotNumber"]
             immunization.date_given = datetime.fromisoformat(
-                resource['occurrenceDateTime'])
+                resource["occurrenceDateTime"]
+            )
 
             # So dependenting on the code we get determines the type
             # of vaccine that was issued
-            immunization.vaccine_administered = self.vaccine_mgr.get_vaccine_by_fhir_code(int(code['code']))
+            immunization.vaccine_administered = (
+                self.vaccine_mgr.get_vaccine_by_fhir_code(int(code["code"]))
+            )
 
-            immunization._shc_parent_object = resource['patient']['reference']
+            immunization._shc_parent_object = resource["patient"]["reference"]
 
             # so register the specific vaccine, right now, just handle the "code"
             immunizations.append(immunization)
@@ -98,17 +103,17 @@ class FHIRParser(object):
     # }
 
     def parse_person_record(self, resource):
-        '''Converts FHIR data into People Records
-        
+        """Converts FHIR data into People Records
+
         NOTE: Currently only data related to completed vaccinations
         is considered by this function. This may change on a later
         date if needed.
-        
+
         To be specific, any immunization record that is not 'completed'
         is silently discarded.
-        '''
+        """
 
-        if resource['resourceType'] != 'Patient':
+        if resource["resourceType"] != "Patient":
             raise ValueError("Non-patient record passed")
 
         person = v.Person()
@@ -118,21 +123,21 @@ class FHIRParser(object):
         # validation correctly since their COVID card may not 100%
         # match the government ID
 
-        for name in resource['name']:
+        for name in resource["name"]:
             person_name = ""
-            for given_name in name['given']:
+            for given_name in name["given"]:
                 person_name = person_name + given_name + " "
-            person_name = person_name + name['family']
+            person_name = person_name + name["family"]
             person.names.append(person_name)
 
-        person.dob = datetime.fromisoformat(resource['birthDate'])
+        person.dob = datetime.fromisoformat(resource["birthDate"])
 
         return person
 
     def parse_bundle_to_persons(self, bundle):
         # First, we need to sort, and create top level records
 
-        if bundle['resourceType'] != "Bundle":
+        if bundle["resourceType"] != "Bundle":
             raise ValueError("must be a FHIR Bundle")
 
         # So we need to map each type of resource to
@@ -150,23 +155,23 @@ class FHIRParser(object):
 
         immunizations = []
 
-        for entry in bundle['entry']:
+        for entry in bundle["entry"]:
             # Determine what type of resource we're looking at
-            resource = entry['resource']
-            if entry['fullUrl'] in seen_full_urls:
+            resource = entry["resource"]
+            if entry["fullUrl"] in seen_full_urls:
                 raise ValueError("Duplicate URL Detected")
 
-            seen_full_urls.add(entry['fullUrl'])
+            seen_full_urls.add(entry["fullUrl"])
 
-            if resource['resourceType'] == 'Patient':
+            if resource["resourceType"] == "Patient":
                 person = self.parse_person_record(resource)
-                person_uris[entry['fullUrl']] = person
+                person_uris[entry["fullUrl"]] = person
 
                 # print(vars(person))
-            elif resource['resourceType'] == 'Immunization':
+            elif resource["resourceType"] == "Immunization":
                 # ok, special case here, we only handle an immunizaiton
                 # if it was actually completed, otherwise, disregard
-                if resource['status'] != 'completed':
+                if resource["status"] != "completed":
                     # FHIR specification notes that status can be one
                     # of the following values
                     #
@@ -175,7 +180,7 @@ class FHIRParser(object):
                     # - not-done
                     #
                     # As such, we can completely disregard any not completed
-                    # records as they will never count towards determine 
+                    # records as they will never count towards determine
                     # vaccination status
                     # FIXME: debug logger
                     continue
@@ -191,10 +196,9 @@ class FHIRParser(object):
         # Assiocate immunity records with patient records
         for immunization in immunizations:
             if immunization._shc_parent_object not in person_uris:
-                raise ValueError(
-                    "ERROR: DANGLING REFERENCE TO SHC PARENT OBJECT")
+                raise ValueError("ERROR: DANGLING REFERENCE TO SHC PARENT OBJECT")
             person_uris[immunization._shc_parent_object].immunizations.append(
-                immunization)
-        
+                immunization
+            )
 
         return list(person_uris.values())

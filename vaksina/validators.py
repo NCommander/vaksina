@@ -19,9 +19,10 @@
 # SOFTWARE.
 #
 
-'''Handles various validator functions'''
+"""Handles various validator functions"""
 
 from datetime import datetime
+
 
 # Check if user has gotten a one shot vaccine
 def is_immunization_older_than_14_days(immunization):
@@ -31,6 +32,7 @@ def is_immunization_older_than_14_days(immunization):
         return True
     return False
 
+
 class ValidationResult(object):
     def __init__(self):
         self.card_validation_status = "invalid"
@@ -38,24 +40,25 @@ class ValidationResult(object):
 
     def to_dict(self):
         vr_dict = {}
-        vr_dict['card_validation_status'] = self.card_validation_status
+        vr_dict["card_validation_status"] = self.card_validation_status
         if self.validation_errors is not None:
-            vr_dict['validation_errors'] = self.validation_errors
+            vr_dict["validation_errors"] = self.validation_errors
         return vr_dict
+
 
 class Validators(object):
     def __init__(self, v):
         self.v_obj = v
 
     def validator_osha_1910_501_rules(self, person):
-        '''
+        """
         Determines valid vaccination status based off the OSHA
         1910.501 Standard.
 
         https://osha.gov/laws-regs/regulations/standardnumber/1910/1910.501
 
         To be fully vaccinated, an individual must meet the following
-        
+
         If one shot vaccine is used (aka J&J) then:
           - 2 weeks must pass from administration date to current date
 
@@ -64,7 +67,7 @@ class Validators(object):
           - 2 weeks from the date of administration
 
         This standard does not account for any boosters in use.
-        '''
+        """
 
         vacinfo = self.v_obj.get_vaccine_manager()
         one_shot_vaccines = vacinfo.get_vaccines_by_required_doses(1)
@@ -101,7 +104,7 @@ class Validators(object):
 
         for vaccine_series in person_two_vaccine_dict.values():
             # We need two shots to consider this
-            if len(vaccine_series)  < 2:
+            if len(vaccine_series) < 2:
                 continue
 
             # Determine oldest and newest shot
@@ -119,6 +122,6 @@ class Validators(object):
                 if is_immunization_older_than_14_days(newest_vaccination):
                     result.card_validation_status = "success"
                     return result
-        
+
         result.card_validation_status = "failed"
         return result

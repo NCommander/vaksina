@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
 
 import json
+
 import vaksina
 import vaksina.shc as shc
 import vaksina.shc.key_management as km
 from vaksina.vaksina import Vaksina
 from vaksina.validators import Validators
+
 
 def main():
     v = Vaksina()
@@ -13,9 +15,9 @@ def main():
     # Configuration Stuff
     with open("jwks.json", "r") as f:
         jwt_json = json.loads(f.read())
-        v.import_signing_key("shc",
-                             "https://spec.smarthealth.cards/examples/issuer",
-                             jwt_json)
+        v.import_signing_key(
+            "shc", "https://spec.smarthealth.cards/examples/issuer", jwt_json
+        )
 
     # with open("data/shc_keys.json", "r") as f:
     #     v.import_key_database('shc', f.read())
@@ -29,10 +31,11 @@ def main():
 
     cs = vaksina.Cardset()
     cs.add_card(card)
-    #print(json.dumps(cs.to_dict(), indent=2))
+    # print(json.dumps(cs.to_dict(), indent=2))
 
     val = vaksina.Validators(v)
-    print(val.validator_osha_1910_501_rules(card.persons['person0']).to_dict())
+    print(val.validator_osha_1910_501_rules(card.persons["person0"]).to_dict())
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()
