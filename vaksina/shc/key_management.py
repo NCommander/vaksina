@@ -20,53 +20,55 @@
 #
 
 import json
+
 from jose import jwk, jws
 from jose.constants import ALGORITHMS
 from jose.exceptions import JWSError
 
+
 class KeyManagement(object):
-    '''Handles keeping track of all known SHC key signatures'''
+    """Handles keeping track of all known SHC key signatures"""
 
     def __init__(self):
-        '''Default initializer'''
+        """Default initializer"""
         pass
 
     def get_keys_for_key_id(self, key_id):
-        '''Returns all known keys for a given kid'''
+        """Returns all known keys for a given kid"""
         return self._key_storage.get(key_id, None)
 
     def enroll_key_for_key_id(self, key_id, keydata):
-        '''Enrolls a key into the Key Management system'''
+        """Enrolls a key into the Key Management system"""
         loaded_key = KeyManagement._load_pubkey(keydata)
 
         keys = self._key_storage.get(key_id, None)
 
         if keys is None:
             self._key_storage[key_id] = loaded_key
-        #else:
-            #raise ValueError("Cowardly refusing to enroll duplicate iss keystore")
+        # else:
+        # raise ValueError("Cowardly refusing to enroll duplicate iss keystore")
 
     def _load_pubkey(jwt_pubkey):
-        '''Creates jose pubkey objects from JWT JSON'''
+        """Creates jose pubkey objects from JWT JSON"""
 
         # SHC says this is what must be used
         valid_keys = dict()
 
         # Specification allows multiple keys, so lets process them one by one
-        for key in jwt_pubkey['keys']:
-            if key['kty'] != 'EC':
+        for key in jwt_pubkey["keys"]:
+            if key["kty"] != "EC":
                 print("ERROR: Can't load non EC key")
                 continue
-            
-            if key['use'] != 'sig':
+
+            if key["use"] != "sig":
                 print("ERROR: key type not signature")
                 continue
 
-            if key['alg'] != 'ES256':
+            if key["alg"] != "ES256":
                 print("ERROR: Not ES256 key!")
                 continue
 
-            if key['crv'] != 'P-256':
+            if key["crv"] != "P-256":
                 print("ERROR: not the right type of curve")
                 continue
 
@@ -78,7 +80,7 @@ class KeyManagement(object):
             if "d" in key:
                 print("SUPER ERROR: SOMEONE LEFT THE PRIVATE KEY IN PLACE!")
 
-            valid_keys[key['kid']] = jwk.construct(key, algorithm=ALGORITHMS.ES256)
+            valid_keys[key["kid"]] = jwk.construct(key, algorithm=ALGORITHMS.ES256)
 
         return valid_keys
 

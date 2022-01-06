@@ -19,17 +19,17 @@
 # SOFTWARE.
 #
 
-from enum import Enum
 import json
-
-from vaksina.card_manager import CardManager
+from enum import Enum
 
 import vaksina.shc.ctm as shc_ctm
 import vaksina.vaccines
+from vaksina.card_manager import CardManager
 
 
 class Vaksina(object):
-    '''Defines public API objects, and holds per instance state information'''
+    """Defines public API objects, and holds per instance state information"""
+
     _shc_ctm = None
     _vaccine_info_mgr = None
 
@@ -38,30 +38,30 @@ class Vaksina(object):
         self._shc_ctm = shc_ctm.ShcCardTypeManager(self._vaccine_info_mgr)
 
     def load_vaccine_info(self, raw_file):
-        '''Loads data file with all known vaccine information'''
+        """Loads data file with all known vaccine information"""
         self._vaccine_info_mgr.load_vaccine_info(raw_file)
 
     def import_signing_key(self, card_type, key_id, key_data):
-        '''Imports a key into the keystore'''
+        """Imports a key into the keystore"""
 
         if card_type == "shc":
             self._shc_ctm.import_signing_key(key_id, key_data)
 
     def import_key_database(self, card_type, key_data):
-        '''Imports a key into the keystore'''
+        """Imports a key into the keystore"""
 
         if card_type == "shc":
             self._shc_ctm.import_key_database(key_data)
 
     def parse_card_data(self, card_data):
-        '''Parses inbound QR code data'''
+        """Parses inbound QR code data"""
 
-        if card_data[0:5] == 'shc:/':
+        if card_data[0:5] == "shc:/":
             return self._shc_ctm.parse_card_data(card_data)
 
         #  if we get here, no known way to handle it
         raise NotImplemented
 
     def get_vaccine_manager(self):
-        '''Returns the initialized vaccine info manager'''
+        """Returns the initialized vaccine info manager"""
         return self._vaccine_info_mgr

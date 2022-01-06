@@ -19,26 +19,27 @@
 # SOFTWARE.
 #
 
-'''Contains the top level objects for vaccine codes'''
+"""Contains the top level objects for vaccine codes"""
 
 import enum
 import json
 
+
 class VaccineInfoManager(object):
-    '''Manages all data for vaccines as needed'''
-    
+    """Manages all data for vaccines as needed"""
+
     def __init__(self):
         self._known_vaccine_list = []
 
     def load_vaccine_info(self, raw_file):
-        '''Loads data file with all known vaccine information'''
+        """Loads data file with all known vaccine information"""
         vax_info = json.loads(raw_file)
-        for vax in vax_info['known_vaccines']:
+        for vax in vax_info["known_vaccines"]:
             v = Vaccine.load_from_json(vax)
             self._known_vaccine_list.append(v)
 
     def get_vaccine_by_fhir_code(self, wanted_fhir_code):
-        '''Walks the vaccine list, and returns vaccine obj based off FHIR'''
+        """Walks the vaccine list, and returns vaccine obj based off FHIR"""
 
         for vaccine in self._known_vaccine_list:
             for fhir_code in vaccine.fhir_codes:
@@ -48,15 +49,15 @@ class VaccineInfoManager(object):
         raise ValueError("Unknown vaccine")
 
     def get_vaccine_by_identifier(self, identifier):
-        '''Gets a vaccine by the identifier in the JSON file'''
+        """Gets a vaccine by the identifier in the JSON file"""
         for vaccine in self._known_vaccine_list:
             if vaccine.vaccine_identifier == identifier:
                 return vaccine
-        
+
         raise ValueError("Unknown vaccine")
 
     def get_vaccines_by_required_doses(self, num_of_doses):
-        '''Returns the list of vaccines that only need X doses or less'''
+        """Returns the list of vaccines that only need X doses or less"""
         list_of_vaccines = []
         for vaccine in self._known_vaccine_list:
             if vaccine.required_doses == num_of_doses:
@@ -64,8 +65,10 @@ class VaccineInfoManager(object):
 
         return list_of_vaccines
 
+
 class Vaccine(object):
-    '''Base class for vaccines'''
+    """Base class for vaccines"""
+
     def __init__(self):
         self.vaccine_identifier = None
         self.required_doses = None
@@ -76,12 +79,12 @@ class Vaccine(object):
         return self.vaccine_identifier == other.vaccine_identifier
 
     def load_from_json(v):
-        '''Deserailizes vaccine information from JSON file'''
+        """Deserailizes vaccine information from JSON file"""
         vax = Vaccine()
-        vax.vaccine_identifier = v['vaccine_identifier']
-        vax.required_doses = v['required_doses']
-        vax.recommended_minimum_days_between_doses = \
-            v['recommended_minimum_days_between_doses']
-        vax.fhir_codes = v['fhir_codes']
+        vax.vaccine_identifier = v["vaccine_identifier"]
+        vax.required_doses = v["required_doses"]
+        vax.recommended_minimum_days_between_doses = v[
+            "recommended_minimum_days_between_doses"
+        ]
+        vax.fhir_codes = v["fhir_codes"]
         return vax
-

@@ -21,6 +21,7 @@
 
 from datetime import datetime
 
+
 class Person(object):
     def __init__(self):
         self.names = []
@@ -49,17 +50,15 @@ class Person(object):
         """
 
     def to_dict(self):
-        '''Serializes data to a dictionary for use in JSON, etc.'''
+        """Serializes data to a dictionary for use in JSON, etc."""
         person_dict = {}
-        person_dict['name'] = []
+        person_dict["name"] = []
         for name in self.names:
-            person_dict['name'].append(name)
-        
-        person_dict['dob'] = self.dob.strftime("%Y-%m-%d")
-        person_dict['immunizations'] = []
+            person_dict["name"].append(name)
+
+        person_dict["dob"] = self.dob.strftime("%Y-%m-%d")
+        person_dict["immunizations"] = []
         for immunization in self.immunizations:
-            person_dict['immunizations'].append(
-                immunization.to_dict()
-            )
+            person_dict["immunizations"].append(immunization.to_dict())
 
         return person_dict

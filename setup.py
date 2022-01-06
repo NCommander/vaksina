@@ -21,15 +21,14 @@
 # SOFTWARE.
 #
 
-from setuptools import setup, find_packages
-
+from setuptools import find_packages, setup
 
 setup(
     name="vaksina",
     version="0.1",
     packages=find_packages(exclude=("tests",)),
     install_requires=[
-        'python-jose[cryptography]',
+        "python-jose[cryptography]",
     ],
-    test_suite="tests"
+    test_suite="tests",
 )
