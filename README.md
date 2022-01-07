@@ -1,12 +1,12 @@
 # Vaksina COVID QR Validation Checker
 
-**NOTE**: Under best case scenarios, when combined with national ID of some sort, a COVID QR checker can provide assurances that a given person is properly vaccinated. However, especially in certain areas with non-centralized issuing, it is possible to have cases where an individual will not have a valid digital record because it was split into multiple locations or registries. As such **this application** can only be used to streamline the best scenario, and not as a replacement for manual checking.
+**NOTE**: Under best-case scenarios, when combined with the national ID of some sort, a COVID QR checker can provide assurances that a given person is properly vaccinated. However, especially in certain areas with non-centralized issuing, it is possible to have cases where an individual will not have a valid digital record because it was split into multiple locations or registries. As such this application can only be used to streamline the best scenario, and not as a replacement for manual checking.
 
-Vaksina is a general purpose library intended to validate multiple COVID QR codes from multiple countries and issuers. It is intended to streamline and help make validation of codes from multiple sources easier for public venues and other event.
+Vaksina is a general-purpose library intended to validate multiple COVID QR codes from multiple countries and issuers. It is intended to streamline and help make validation of codes from multiple sources easier for public venues and other events.
 
-This was primarily written because, at the time I started this project, there is still no comprehensive COVID checking platform in existence. While some exist for Canada's SMART Health Cards, and the EU's Digital COVID Pass, there is no framework that can handle them as a single source of truth.
+This was primarily written because at the time I started this project, there is still no comprehensive COVID checking platform in existence. While some exist for Canada's SMART Health Cards and the EU's Digital COVID Pass, no framework can handle them as a single source of truth.
 
-Vaksina is the intended proof of concept to handle this, and is intended to work with a REST based API deployed on venue, but may be adopted for use in mobile applications *and similar* as a future goal, but the intent is implementation with a kiosk like system that is used in combination with a national ID card *since* none of the COVID-19 QR codes are usable as an ID in and of themselves.
+Vaksina is the intended proof of concept to handle this and is intended to work with a REST-based API deployed on a venue, but maybe adopted for use in mobile applications and similar as a future goal, but the intent is implementation with a kiosk-like system that is used in combination with a national ID card since none of the COVID-19 QR codes are usable as an ID in and of themselves.
 
 ## Version 0.1 Goals
 
@@ -20,11 +20,11 @@ The creation of a "known good" set of sign keys will be provided ala Mozilla sto
 
 ### Creation of validation of SMART Health Card standard
 
-There is no one specific standard for COVID-19 QR validation. Canada, and Japan have standardized on SMART, as have several states, pharmacies, hospitals and more within the United States. While Vaksina is intended as a general COVID-19 credential verification library, the initial MVP will only handle SMART Health Cards. Support for additional standards such as the EU's Digital COVID Pass, the UK's NHS Pass, and others like the New York State Excelsior Pass will be added with time.
+There is no one specific standard for COVID-19 QR validation. Canada and Japan have standardized on SMART, as have several states, pharmacies, hospitals and more within the United States. While Vaksina is intended as a general COVID-19 credential verification library, the initial MVP will only handle SMART Health Cards. Support for additional standards such as the EU's Digital COVID Pass, the UK's NHS Pass, and others like the New York State Excelsior Pass will be added with time.
 
-### Implementation of VaccinePolicy Framework, to determine status
+### Implementation of VaccinePolicy Framework, to determine the status
 
-Given the ongoing needs of various venues, and other changes, it is planned that a given VaccinePolicy can coded for and changed. Vaksina is intended to have a "generic" frontend with current best practices, but is meant to be easily customized without having to fork the library.
+Given the ongoing needs of various venues, and other changes, it is planned that a given VaccinePolicy can be coded for and changed. Vaksina is intended to have a "generic" frontend with current best practices but is meant to be easily customized without having to fork the library.
 
 ### Basic Front End for testing purposes
 
@@ -38,15 +38,15 @@ Because we don't want to have untested code paths.
 
 ### Reference implementation
 
-To the extent possible, I was this to be a comprehensive reference for all known major vaccine cards. While these exist in multiple places, they're usually either tied to a browser based framework *or* to a given mobile platform. As such, it difficult to repurpose for other needs, or to be used for education purposes relating to how information is stored on COVID Cards
+To the extent possible, I was this to be a comprehensive reference for all known major vaccine cards. While these exist in multiple places, they're usually either tied to a browser-based framework or a given mobile platform. As such, it is difficult to repurpose for other needs or to be used for educational purposes relating to how information is stored on COVID Cards.
 
-For people that want independent verification of what their cards contain, this is intended also to provide insight into an otherwise murky world, with hopefully well readable and understandable code that they run on their own system.
+For people that want independent verification of what their cards contain, this is intended also to provide insight into an otherwise murky world, with hopefully well readable and understandable code that they run on their system.
 
 ### Handle non-Android/iOS uses
 
-In general, the only applications that appear to exist are iOS/Android based as of right now. There are some nodejs implementations, but they don't work on universal cards. As such, it makes very hard to use a QR code scanner as part of a larger application, such as a streamlined check in registration. The original envisioned use case was streamlined registration for a conference, vs. to deal with either taking QR codes on faith, or manual validation of each and every card.
+In general, the only applications that appear to exist are iOS/Android-based as of right now. There are some nodejs implementations, but they don't work on universal cards. As such, it makes it very hard to use a QR code scanner as part of a larger application, such as a streamlined check-in registration. The original envisioned use case was streamlined registration for a conference, vs. dealing with either taking QR codes on faith, or manual validation of each and every card.
 
-It should be noted however, that COVID 19 vaccine cards *are not valid* without external ID.
+It should be noted, however, that COVID 19 vaccine cards are not valid without an external ID.
 
 ### Allow interface/embedding in other applications easier
 
