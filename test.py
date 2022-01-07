@@ -30,7 +30,7 @@ def main():
         v.load_vaccine_info(f.read())
 
     card = None
-    with open("example-01-f-qr-code-numeric-value-0.txt", "r") as f:
+    with open("tests/data/shc/official/example-01-f-qr-code-numeric-value-0.txt", "r") as f:
         card = v.parse_card_data(f.read())
 
     cs = vaksina.Cardset()
