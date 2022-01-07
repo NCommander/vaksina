@@ -243,9 +243,6 @@ class TestFHIRParser(unittest.TestCase):
         p_list = fhir_parser.parse_bundle_to_persons(json_parse)
         self.assertEqual(len(p_list), 2)
 
-        print(p_list[0].names[0])
-        print(p_list[1].names[0])
-
         if p_list[0].names[0] == "Jane C. Anyperson":
             jane_p = p_list[0]
             john_p = p_list[1]

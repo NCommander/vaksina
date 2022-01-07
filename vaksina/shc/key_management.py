@@ -21,9 +21,8 @@
 
 import json
 
-from jose import jwk, jws
+from jose import jwk
 from jose.constants import ALGORITHMS
-from jose.exceptions import JWSError
 
 
 class KeyManagement(object):

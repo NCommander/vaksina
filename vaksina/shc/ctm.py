@@ -27,6 +27,7 @@ import zlib
 import vaksina
 import vaksina.fhir_parser as f
 import vaksina.shc.key_management as km
+
 from jose import jwk, jws
 from jose.constants import ALGORITHMS
 
@@ -50,12 +51,6 @@ class ShcCardTypeManager(vaksina.CardManager):
         for p in parts:
             b64_data += chr(int(p) + 45)
 
-        # Padd Base64 if needed
-        padding_needed = len(b64_data) % 4
-        if padding_needed != 0:
-            for _ in range(padding_needed):
-                b64_data += "="
-        jwt_data = base64.urlsafe_b64decode(b64_data)
 
         # So, to validate the turducken (that is say SHC data)
         # we need to unpack without checking the signature. Then

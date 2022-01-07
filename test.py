@@ -8,12 +8,16 @@ import vaksina.shc.key_management as km
 from vaksina.vaksina import Vaksina
 from vaksina.validators import Validators
 
+SHC_OFFICIAL_KEY = (
+    'tests/data/shc/official/keys/jwks.json'
+)
+
 
 def main():
     v = Vaksina()
 
     # Configuration Stuff
-    with open("jwks.json", "r") as f:
+    with open(SHC_OFFICIAL_KEY, "r") as f:
         jwt_json = json.loads(f.read())
         v.import_signing_key(
             "shc", "https://spec.smarthealth.cards/examples/issuer", jwt_json
