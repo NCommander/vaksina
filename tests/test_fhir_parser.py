@@ -25,13 +25,17 @@ from datetime import datetime
 
 import vaksina.fhir_parser as fp
 import vaksina.vaccines as vac
+import os
 
-TEST_DATA_SHC = "tests/data/shc/"
-TEST_DATA_FHIR = "tests/data/fhir/"
+
+dir_path = os.path.dirname(os.path.realpath(__file__)) + '/'
+
+TEST_DATA_SHC = dir_path + "data/shc/"
+TEST_DATA_FHIR = dir_path + "data/fhir/"
 
 TEST_OFFICIAL_DATA_ROOT = TEST_DATA_SHC + "official/"
 
-VACCINE_INFO = "tests/data/vaccine_info.json"
+VACCINE_INFO = dir_path + "data/vaccine_info.json"
 
 # Example test file 2 doesn't have any patient data in it
 TEST_PATIENT = TEST_DATA_FHIR + "patient_data.json"
