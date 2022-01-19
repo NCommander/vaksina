@@ -11,7 +11,7 @@ processing
 ## CardObjects
 
 A card object represents a given digital card, and is handled by other classes to
-determine if the holder is currently up to date with their vaccination records
+determine if the holder is currently up-to-date with their vaccination records
 
 CardObjects are a generic superclass for each type of card, i.e. SHC, Green Pass, etc.
 
@@ -21,7 +21,7 @@ A card MUST have the following information
 * Date of Birth
 * Immunization Record (if possible)
 
-CardObjects get passed to Validation modules to determine if the holder is *actually* vaccinated
+CardObjects are passed to Validation modules to determine if the holder is *actually* vaccinated
 
 ## Person
 
@@ -39,4 +39,4 @@ A Person contains the following information
   * Could include PCR tests/rapid antigen
   * Must include vaccination complete with status
 
-Can be processed by a validator module to the determine status
+Can be processed by a validator module to determine status

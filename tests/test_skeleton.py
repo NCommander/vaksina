@@ -34,5 +34,5 @@ class TestSkeleton(unittest.TestCase):
         pass
 
     def test_hello(self):
-        """Tests that the test envirnment exists"""
+        """Tests that the test environment exists"""
         pass

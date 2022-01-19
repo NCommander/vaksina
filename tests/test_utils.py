@@ -24,12 +24,16 @@ import unittest
 
 from jose import jwk
 from jose.constants import ALGORITHMS
+import os
 
 import vaksina.utils as u
 
+dir_path = os.path.dirname(os.path.realpath(__file__)) + '/'
+
 SHC_OFFICIAL_KEY = (
-    'tests/data/shc/official/keys/jwks.json'
+    dir_path + 'data/shc/official/keys/jwks.json'
 )
+
 
 class TestUtils(unittest.TestCase):
     """Tests misc utility functions"""

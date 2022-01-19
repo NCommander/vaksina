@@ -22,8 +22,11 @@
 import unittest
 
 import vaksina.vaccines as vac
+import os
 
-VACCINE_INFO = "tests/data/vaccine_info.json"
+dir_path = os.path.dirname(os.path.realpath(__file__)) + '/'
+
+VACCINE_INFO = dir_path + "data/vaccine_info.json"
 
 
 def get_vac_manager():
@@ -64,7 +67,7 @@ class TestVaccineManager(unittest.TestCase):
         self.assertIsNotNone(vaccine)
         self.assertEqual(vaccine.vaccine_identifier, "MODERNA")
 
-    def test_vaccine_by_fhir_code_single(self):
+    def test_vaccine_by_fhir_code_multiple(self):
         """Ensures that we can properly load vaccine with multiple codes"""
 
         vac_mgr = get_vac_manager()

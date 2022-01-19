@@ -1,6 +1,6 @@
 # Various hardware/deployment scenarios
 
-Vaksina plus its API are designed to have as minium requirements as possible. The goal is to keep as code in base Python libraries as is possible, and as few dependencies as possible
+Vaksina plus its API are designed to have as minimum requirements as possible. The goal is to keep as code in base Python libraries as is possible, and as few dependencies as possible
 
 Current thought process towards deployment image:
 
@@ -24,13 +24,13 @@ Ability to interface with external hardware:
 
 We may end up deploying multiple solutions ... We'll see ...
 
-An important factor is this needs to be entirely turnkey. You download a premade IMG file, you pop it in, and it boots regardless. No configuration, or changes are needed. Furthermore, no internet access or network connectivity of any sort is needed. All information is locally stored.
+An important factor is this needs to be entirely turnkey. You download a pre-made IMG file, you pop it in, and it boots regardless. No configuration, or changes are needed. Furthermore, no internet access or network connectivity of any sort is needed. All information is locally stored.
 
 ## Ubuntu Core Based Solution
 
-The use of Ubuntu Core as a base has all needed dependencies pre-packaged, and is trivial to deploy Docker containers on.
+The use of [Ubuntu Core](https://ubuntu.com/core) as a base has all the needed dependencies pre-packaged, and is trivial to deploy Docker containers on.
 
-It also allows easy upscaling to other machines, support for RPi, and general familiarity. Ubuntu Core offers "Ubuntu Frame" as a key solution to host a web application to gather QR codes and similar.
+It also allows easy upscaling to other machines, support for [RPi](https://www.raspberrypi.org), and general familiarity. Ubuntu Core offers "Ubuntu Frame" as a key solution to host a web application to gather QR codes and similar.
 
 Unknowns:
 
@@ -40,7 +40,7 @@ One of the major pros of Ubuntu Core is the long life of an LTS release, with Ub
 
 ## Alpine Based Solution
 
-Alpine is based around muslc, and is *in general* considerably smaller than Ubuntu. Alpine might be better for constrained hardware, *but* I'm less familiar with it in a general sense. Furthermore, if interaction with existing Glibc binaries needs to happen, alpine is difficult, as such things are not supported.
+[Alpine](https://www.alpinelinux.org/) is based around [muslc](https://musl.libc.org/), and is *in general* considerably smaller than Ubuntu. Alpine might be better for constrained hardware, *but* I'm less familiar with it in a general sense. Furthermore, if interaction with existing Glibc binaries needs to happen, alpine is difficult, as such things are not supported.
 
 Alpine has generally excellent hardware and environment support, *but*, need to consider support life as a whole. Mostly just boils down to I have to do more research.
 
