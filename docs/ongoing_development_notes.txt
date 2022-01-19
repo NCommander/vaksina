@@ -19,7 +19,7 @@ So immunization record exists in the form of:
  Need to create Vaccination Record types that convert medical coding to Vaccine object(?)
   - is this the best way to handle it?
 
- Once Person/Immunization records assiocated with, we need a parser then checks
+ Once Person/Immunization records associated with, we need a parser then checks
  immunizations, and determined if they're good to go, plus time from initial shot
  per COVID protocols. This should be implemented as a generic "class" that takes
  Person record in, returns True/False to determine if someone is vaccinated, which
