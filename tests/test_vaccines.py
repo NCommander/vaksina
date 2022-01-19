@@ -64,7 +64,7 @@ class TestVaccineManager(unittest.TestCase):
         self.assertIsNotNone(vaccine)
         self.assertEqual(vaccine.vaccine_identifier, "MODERNA")
 
-    def test_vaccine_by_fhir_code_single(self):
+    def test_vaccine_by_fhir_code_multiple(self):
         """Ensures that we can properly load vaccine with multiple codes"""
 
         vac_mgr = get_vac_manager()

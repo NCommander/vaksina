@@ -141,7 +141,7 @@ class TestFHIRParser(unittest.TestCase):
         self.assertEqual(patient.names[0], "John B. Anyperson")
         self.assertEqual(patient.dob, comparison_time)
 
-    def test_parse_person_record(self):
+    def test_parse_person_record_error(self):
         """Tests if how we handle a Person entry"""
         fhir_parser = fp.FHIRParser(self.vaccine_mgr)
 
