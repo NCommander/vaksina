@@ -32,7 +32,7 @@ def _generate_kid_for_jwk_dict(jwks_dict):
     """Generates KID token per RFC 7638
     
     Unfortunately, python-jose doesn't have a way to generate key IDs for a JWK
-    according to RFC 7638, and its the only permissive licensed JWT library that
+    according to RFC 7638, and it's the only permissive licensed JWT library that
     has support for ECs out of the box. This only handles ECs as of right now
 
     This takes a raw JWK dict, so you can load JSON data and pass it straight in

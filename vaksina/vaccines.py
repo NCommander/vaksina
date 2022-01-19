@@ -79,7 +79,7 @@ class Vaccine(object):
         return self.vaccine_identifier == other.vaccine_identifier
 
     def load_from_json(v):
-        """Deserailizes vaccine information from JSON file"""
+        """Deserializes vaccine information from JSON file"""
         vax = Vaccine()
         vax.vaccine_identifier = v["vaccine_identifier"]
         vax.required_doses = v["required_doses"]

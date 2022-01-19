@@ -71,9 +71,9 @@ class KeyManagement(object):
                 print("ERROR: not the right type of curve")
                 continue
 
-            # make sure we have x and why
+            # make sure we have x and y
             if "x" not in key or "y" not in key:
-                print("x/y cooridors not found!")
+                print("x/y coordinates not found!")
                 continue
 
             if "d" in key:

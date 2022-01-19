@@ -44,7 +44,7 @@ class Person(object):
         self.immunizations = []
         """Immunizations are vaksina.Immunization objects, formed as a list.
 
-        Only completed vaccitions (that is status = "completed" in SHC, or similar
+        Only completed vaccinations (that is status = "completed" in SHC, or similar
         in other cards) is included, since this is not intended as a general purpose
         health record tool, merely a validator for COVID-19 QR codes
         """
