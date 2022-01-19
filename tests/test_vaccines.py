@@ -22,8 +22,11 @@
 import unittest
 
 import vaksina.vaccines as vac
+import os
 
-VACCINE_INFO = "tests/data/vaccine_info.json"
+dir_path = os.path.dirname(os.path.realpath(__file__)) + '/'
+
+VACCINE_INFO = dir_path + "data/vaccine_info.json"
 
 
 def get_vac_manager():
