@@ -102,7 +102,8 @@ class FHIRParser(object):
     #   "birthDate": "1951-01-20"
     # }
 
-    def parse_person_record(self, resource):
+    @staticmethod
+    def parse_person_record(resource):
         """Converts FHIR data into People Records
 
         NOTE: Currently only data related to completed vaccinations

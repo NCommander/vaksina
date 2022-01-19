@@ -51,8 +51,7 @@ class Person(object):
 
     def to_dict(self):
         """Serializes data to a dictionary for use in JSON, etc."""
-        person_dict = {}
-        person_dict["name"] = []
+        person_dict = {"name": []}
         for name in self.names:
             person_dict["name"].append(name)
 

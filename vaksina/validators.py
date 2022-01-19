@@ -39,8 +39,7 @@ class ValidationResult(object):
         self.validation_errors = None
 
     def to_dict(self):
-        vr_dict = {}
-        vr_dict["card_validation_status"] = self.card_validation_status
+        vr_dict = {"card_validation_status": self.card_validation_status}
         if self.validation_errors is not None:
             vr_dict["validation_errors"] = self.validation_errors
         return vr_dict

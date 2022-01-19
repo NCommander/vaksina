@@ -78,6 +78,7 @@ class Vaccine(object):
     def __eq__(self, other):
         return self.vaccine_identifier == other.vaccine_identifier
 
+    @staticmethod
     def load_from_json(v):
         """Deserializes vaccine information from JSON file"""
         vax = Vaccine()

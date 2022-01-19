@@ -47,6 +47,7 @@ class KeyManagement(object):
         # else:
         # raise ValueError("Cowardly refusing to enroll duplicate iss keystore")
 
+    @staticmethod
     def _load_pubkey(jwt_pubkey):
         """Creates jose pubkey objects from JWT JSON"""
 
