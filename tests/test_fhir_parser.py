@@ -158,7 +158,7 @@ class TestFHIRParser(unittest.TestCase):
         with open(TEST_IMMUNIZATION) as f:
             json_parse = json.loads(f.read())
 
-        i = fhir_parser.parse_immunization_record(json_parse)
+        i = fhir_parser.parse_immunization_records(json_parse)[0]
         issurance_date_test = datetime.fromisoformat("2021-01-01")
 
         self.assertEqual(i.vaccine_administered.vaccine_identifier, "MODERNA")
@@ -174,7 +174,7 @@ class TestFHIRParser(unittest.TestCase):
             json_parse = json.loads(f.read())
 
         with self.assertRaises(ValueError):
-            i = fhir_parser.parse_immunization_record(json_parse)
+            i = fhir_parser.parse_immunization_records(json_parse)
 
     def test_immunization_parse_with_non_immunization(self):
         """Tests graceful exit if we have unknown vaccine coding"""
@@ -184,7 +184,7 @@ class TestFHIRParser(unittest.TestCase):
             json_parse = json.loads(f.read())
 
         with self.assertRaises(ValueError):
-            i = fhir_parser.parse_immunization_record(json_parse)
+            i = fhir_parser.parse_immunization_records(json_parse)
 
     def test_incomplete_immunization_records_are_not_handled(self):
         """Test that logged in error or similar case is not counted"""

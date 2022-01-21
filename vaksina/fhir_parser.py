@@ -50,7 +50,7 @@ class FHIRParser(object):
     #  'vaccineCode': {'coding': [{'code': '207',
     #                              'system': 'http://hl7.org/fhir/sid/cvx'}]}}
 
-    def parse_immunization_record(self, resource):
+    def parse_immunization_records(self, resource):
         """Confirms FHIR Immunization record to object"""
 
         # It's possible that multiple vaccines can be given in
@@ -86,7 +86,7 @@ class FHIRParser(object):
             # so register the specific vaccine, right now, just handle the "code"
             immunizations.append(immunization)
 
-        return immunization
+        return immunizations
 
     # {
     #   "resourceType": "Patient",
@@ -186,7 +186,7 @@ class FHIRParser(object):
                     # FIXME: debug logger
                     continue
 
-                immunizations.append(self.parse_immunization_record(resource))
+                immunizations.extend(self.parse_immunization_records(resource))
 
             # Coverage isn't properly handling an else class here
             #
