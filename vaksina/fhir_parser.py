@@ -81,8 +81,6 @@ class FHIRParser(object):
                 self.vaccine_mgr.get_vaccine_by_fhir_code(int(code["code"]))
             )
 
-            immunization._shc_parent_object = resource["patient"]["reference"]
-
             # so register the specific vaccine, right now, just handle the "code"
             immunizations.append(immunization)
 
@@ -145,6 +143,7 @@ class FHIRParser(object):
         # freeform, so yay ...
 
         person_uris = dict()
+        immunization_uris = dict()
         seen_full_urls = set()
 
         # URLs in SMART Health Cards are freeform, and are used to
@@ -152,8 +151,6 @@ class FHIRParser(object):
         # people on a given card that a URL duplication could be used
         # as an attack. As a safeguard, load all URLs as seen, and
         # bail out *if* we get a duplicate
-
-        immunizations = []
 
         for entry in bundle["entry"]:
             # Determine what type of resource we're looking at
@@ -164,8 +161,11 @@ class FHIRParser(object):
             seen_full_urls.add(entry["fullUrl"])
 
             if resource["resourceType"] == "Patient":
+                refid = entry["fullUrl"]
                 person = self.parse_person_record(resource)
-                person_uris[entry["fullUrl"]] = person
+                if refid in immunization_uris:
+                    person.immunizations = immunization_uris.pop(refid)
+                person_uris[refid] = person
 
                 # print(vars(person))
             elif resource["resourceType"] == "Immunization":
@@ -185,7 +185,14 @@ class FHIRParser(object):
                     # FIXME: debug logger
                     continue
 
-                immunizations.append(self.parse_immunization_record(resource))
+                refid = resource["patient"]["reference"]
+                immunizations = self.parse_immunization_records(resource)
+                if refid in person_uris:
+                    person_uris[refid].immunizations.extend(immunizations)
+                elif refid in immunization_uris:
+                    immunization_uris[refid].extend(immunizations)
+                else:
+                    immunization_uris[refid] = immunizations
 
             # Coverage isn't properly handling an else class here
             #
@@ -193,12 +200,8 @@ class FHIRParser(object):
             # if
             # FIXME: Implement debug logger
 
-        # Assiocate immunity records with patient records
-        for immunization in immunizations:
-            if immunization._shc_parent_object not in person_uris:
-                raise ValueError("ERROR: DANGLING REFERENCE TO SHC PARENT OBJECT")
-            person_uris[immunization._shc_parent_object].immunizations.append(
-                immunization
-            )
+        # Validate patient records
+        if immunization_uris:
+            raise ValueError("ERROR: DANGLING REFERENCE TO SHC PARENT OBJECT")
 
         return list(person_uris.values())
