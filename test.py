@@ -37,8 +37,9 @@ def main():
     cs.add_card(card)
     # print(json.dumps(cs.to_dict(), indent=2))
 
-    val = vaksina.Validators(v)
-    print(val.validator_osha_1910_501_rules(card.persons["person0"]).to_dict())
+    val = vaksina.Validators(v, cs)
+    val.validator_osha_1910_501_rules(card.persons["person0"])
+    print(val.to_dict())
 
 
 if __name__ == "__main__":

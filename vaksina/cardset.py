@@ -45,3 +45,6 @@ class Cardset(object):
             card_content_dict[cardname] = card.to_dict()
 
         return card_content_dict
+
+    def get_cards(self):
+        return self._cards
