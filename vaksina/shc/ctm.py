@@ -51,7 +51,6 @@ class ShcCardTypeManager(vaksina.CardManager):
         for p in parts:
             b64_data += chr(int(p) + 45)
 
-
         # So, to validate the turducken (that is say SHC data)
         # we need to unpack without checking the signature. Then
         # we can get the iss field, try and get that key from the
@@ -60,7 +59,7 @@ class ShcCardTypeManager(vaksina.CardManager):
         unvalidated_vac_header = jws.get_unverified_header(b64_data)
         unvalidated_vac_data = jws.get_unverified_claims(b64_data)
         raw_unsigned_vax_data = str(
-            zlib.decompress(unvalidated_vac_data, wbits=-15), "utf-8"
+            zlib.decompress(bytes(unvalidated_vac_data), wbits=-15), "utf-8"
         )
 
         unsigned_vax_data = json.loads(raw_unsigned_vax_data)
@@ -80,7 +79,7 @@ class ShcCardTypeManager(vaksina.CardManager):
             )
 
         verified_data = jws.verify(b64_data, declared_key, ALGORITHMS.ES256)
-        vax_data = json.loads(str(zlib.decompress(verified_data, wbits=-15), "utf-8"))
+        vax_data = json.loads(str(zlib.decompress(bytes(verified_data), wbits=-15), "utf-8"))
 
         # Assuming we got this far, ensure that this card complies with
         # the specifications we *assume* exist*
@@ -97,9 +96,9 @@ class ShcCardTypeManager(vaksina.CardManager):
                 is_covid19_card = True
 
         if (
-            is_health_card == False
-            or is_covid19_card == False
-            or is_immunization_card == False
+            is_health_card is False
+            or is_covid19_card is False
+            or is_immunization_card is False
         ):
             raise ValueError("Not a supported type of card")
 

@@ -50,11 +50,11 @@ class FHIRParser(object):
     #  'vaccineCode': {'coding': [{'code': '207',
     #                              'system': 'http://hl7.org/fhir/sid/cvx'}]}}
 
-    def parse_immunization_record(self, resource):
+    def parse_immunization_records(self, resource):
         """Confirms FHIR Immunization record to object"""
 
         # It's possible that multiple vaccines can be given in
-        # single day. This isn't done for COVID per say, but
+        # single day. This isn't done for COVID per se, but
         # because FHIR is a general purpose specification, we
         # should handle this, especially if there are future
         # multishot COVID vaccinations that *are* given at later
@@ -75,7 +75,7 @@ class FHIRParser(object):
                 resource["occurrenceDateTime"]
             )
 
-            # So dependenting on the code we get determines the type
+            # So depending on the code we get determines the type
             # of vaccine that was issued
             immunization.vaccine_administered = (
                 self.vaccine_mgr.get_vaccine_by_fhir_code(int(code["code"]))
@@ -86,7 +86,7 @@ class FHIRParser(object):
             # so register the specific vaccine, right now, just handle the "code"
             immunizations.append(immunization)
 
-        return immunization
+        return immunizations
 
     # {
     #   "resourceType": "Patient",
@@ -102,7 +102,8 @@ class FHIRParser(object):
     #   "birthDate": "1951-01-20"
     # }
 
-    def parse_person_record(self, resource):
+    @staticmethod
+    def parse_person_record(resource):
         """Converts FHIR data into People Records
 
         NOTE: Currently only data related to completed vaccinations
@@ -148,7 +149,7 @@ class FHIRParser(object):
         seen_full_urls = set()
 
         # URLs in SMART Health Cards are freeform, and are used to
-        # link objects together. Its possible in a case of multiple
+        # link objects together. It's possible in a case of multiple
         # people on a given card that a URL duplication could be used
         # as an attack. As a safeguard, load all URLs as seen, and
         # bail out *if* we get a duplicate
@@ -169,7 +170,7 @@ class FHIRParser(object):
 
                 # print(vars(person))
             elif resource["resourceType"] == "Immunization":
-                # ok, special case here, we only handle an immunizaiton
+                # ok, special case here, we only handle an immunization
                 # if it was actually completed, otherwise, disregard
                 if resource["status"] != "completed":
                     # FHIR specification notes that status can be one
@@ -185,7 +186,7 @@ class FHIRParser(object):
                     # FIXME: debug logger
                     continue
 
-                immunizations.append(self.parse_immunization_record(resource))
+                immunizations.extend(self.parse_immunization_records(resource))
 
             # Coverage isn't properly handling an else class here
             #
@@ -193,7 +194,7 @@ class FHIRParser(object):
             # if
             # FIXME: Implement debug logger
 
-        # Assiocate immunity records with patient records
+        # Associate immunity records with patient records
         for immunization in immunizations:
             if immunization._shc_parent_object not in person_uris:
                 raise ValueError("ERROR: DANGLING REFERENCE TO SHC PARENT OBJECT")

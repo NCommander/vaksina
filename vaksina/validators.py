@@ -39,8 +39,7 @@ class ValidationResult(object):
         self.validation_errors = None
 
     def to_dict(self):
-        vr_dict = {}
-        vr_dict["card_validation_status"] = self.card_validation_status
+        vr_dict = {"card_validation_status": self.card_validation_status}
         if self.validation_errors is not None:
             vr_dict["validation_errors"] = self.validation_errors
         return vr_dict
@@ -63,7 +62,7 @@ class Validators(object):
           - 2 weeks must pass from administration date to current date
 
         Otherwise, in a two shot vaccine, the following rules apply
-          - each vaccine must be admined 17 days apart with 4 day grace period
+          - each vaccine must be administered 17 days apart with 4 day grace period
           - 2 weeks from the date of administration
 
         This standard does not account for any boosters in use.
@@ -78,7 +77,7 @@ class Validators(object):
         # Get immunizations for person
         immunizations = person.immunizations
 
-        # Handle the simplier one shot test case now ...
+        # Handle the simpler one shot test case now ...
         for immunization in immunizations:
             for vaccine in one_shot_vaccines:
                 if immunization.is_vaccine(vaccine):

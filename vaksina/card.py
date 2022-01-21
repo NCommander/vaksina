@@ -36,10 +36,11 @@ class Card(object):
         self._person_count = self._person_count + 1
 
     def to_dict(self):
-        """Convert Card object to dictionary for validation"""
-        c_dict = {}
-        c_dict["card_type"] = self.card_type
-        c_dict["issued_by"] = self.issued_by
+        """Convert CardObject to dictionary for validation"""
+        c_dict = {
+            "card_type": self.card_type,
+            "issued_by": self.issued_by
+        }
         person_dict = {}
 
         for pkey, person in self.persons.items():

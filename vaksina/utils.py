@@ -28,11 +28,12 @@ import json
 import base64
 import hashlib
 
+
 def _generate_kid_for_jwk_dict(jwks_dict):
     """Generates KID token per RFC 7638
     
     Unfortunately, python-jose doesn't have a way to generate key IDs for a JWK
-    according to RFC 7638, and its the only permissive licensed JWT library that
+    according to RFC 7638, and it's the only permissive licensed JWT library that
     has support for ECs out of the box. This only handles ECs as of right now
 
     This takes a raw JWK dict, so you can load JSON data and pass it straight in
@@ -45,11 +46,12 @@ def _generate_kid_for_jwk_dict(jwks_dict):
     if jwks_dict['kty'] != "EC": 
         raise ValueError("only EC JWKs supported!")
 
-    kid_base = {}
-    kid_base['crv'] = jwks_dict['crv']
-    kid_base['kty'] = jwks_dict['kty']
-    kid_base['x'] = jwks_dict['x']
-    kid_base['y'] = jwks_dict['y']
+    kid_base = {
+        'crv': jwks_dict['crv'],
+        'kty': jwks_dict['kty'],
+        'x': jwks_dict['x'],
+        'y': jwks_dict['y']
+    }
     json_serial = json.dumps(kid_base, sort_keys=True, separators=(',', ':'))
     sha256_hash = hashlib.sha256(json_serial.encode('utf-8')).digest()
     b64_hash = base64.urlsafe_b64encode(sha256_hash)
