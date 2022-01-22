@@ -164,7 +164,6 @@ class TestFHIRParser(unittest.TestCase):
         self.assertEqual(i.vaccine_administered.vaccine_identifier, "MODERNA")
         self.assertEqual(i.date_given, issurance_date_test)
         self.assertEqual(i.lot_number, "0000001")
-        self.assertEqual(i._shc_parent_object, "resource:0")
 
     def test_parse_immunization_record_unknown_system(self):
         """Tests graceful exit if we have unknown vaccine coding"""
